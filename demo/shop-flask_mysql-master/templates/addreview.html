@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+        <form action="{{ url_for('addreview') }}" method="POST">
+            <div class="form-group">
+            <label for="fname">หัวข้อ:</label>
+            <input type="text" class="form-control"  name="title">
+            </div>
+            <div class="form-group">
+            <label for="fname">ข้อความ:</label>
+            <input type="text" class="form-control"  name="mess">
+            </div>
+            <div class="form-group">
+            <label for="fname">ดาว:</label>
+            <input type="text" class="form-control"  name="star">
+            </div>
+            <button class="btn btn-primary" type="submit" onclick="return confirm('คุณต้องการที่จะรีวิวหรือไม่!')"> ยืนยัน </button>
+       </form>
+
+        <!-- <form action="{{ url_for('addreview') }}" method="POST">
+            <div class="form-group">
+            <label>หัวข้อ:</label>
+            <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+            <label>ข้อความ:</label><br>
+            <textarea name="comments"    style="font-family:sans-serif;font-size:1.2em;">???????</textarea>
+            </div>
+            <div class="form-group">
+            <label>ดาว: </label>
+            <select name="star">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" onclick="return confirm('คุณต้องการที่จะรีวิวหรือไม่!')"> ยืนยัน </button>
+            </div>
+        </form> -->
+        <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div> -->
+{% endblock %}

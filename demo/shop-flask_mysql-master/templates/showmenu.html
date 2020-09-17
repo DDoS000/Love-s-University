@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+
+
+
+{% endblock %}
+{% block body %}
+
+  <h1>Menu <small> Welcome {{session.username}}</small></h1><br>
+
+
+  <div class="container">
+    <form action="/addorder" method="get">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-success">
+            <div class="panel-heading">สเต็กหมู</div>
+            <div class="panel-body"><img src="/static/images/pig.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel-footer">สเต็กหมู<br><br> <button formaction="/addorder/0" type="submit" class="btn btn-danger" onclick="return confirm('คุณต้องการสังสเต็กหมูหรือไม่ ?')"> ฿79.00 </button></div>
+          </div>
+        </div>
+        <div class="col-sm-4"> 
+          <div class="panel panel-success">
+            <div class="panel-heading">ซี่โครงหมูย่าง</div>
+            <div class="panel-body"><img src="/static/images/beef.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel-footer">ซี่โครงหมูย่างงงง<br><br> <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModal"> ฿179.00 </button></div>
+          </div>
+        </div>
+        <div class="col-sm-4"> 
+          <div class="panel panel-success">
+            <div class="panel-heading">Grilled steak on chopping board</div>
+            <div class="panel-body"><img src="/static/images/lofter.jpg" class="img-responsive" style="width:100%" alt="Image"></div><br>
+            <div class="panel-footer">ซี่โครงหมูย่างงงง<br><br> <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModal"> ฿69.00 </button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form><br>
+  
+  <div class="container">    
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Set1</div>
+          <div class="panel-body"><img src="/static/images/set1.jpg" class="img-responsive" style="width:100%" alt="Image"></div>
+          <div class="panel-footer">Set1<br><br> <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModal"> ฿299.00 </button></div>
+        </div>
+      </div>
+      <div class="col-sm-4"> 
+        <div class="panel panel-primary">
+          <div class="panel-heading">BLACK FRIDAY DEAL</div>
+          <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+          <div class="panel-footer">ซี่โครงหมูย่างงงง<br><br> <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModal"> ฿179.00 </button></div>
+        </div>
+      </div>
+      <div class="col-sm-4"> 
+        <div class="panel panel-primary">
+          <div class="panel-heading">BLACK FRIDAY DEAL</div>
+          <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+          <div class="panel-footer">ซี่โครงหมูย่างงงง<br><br> <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModal"> ฿179.00 </button></div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+
+
+  <div id="modaledit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">อัพเดทข้อมูลของท่าน</h4>
+        </div>
+        <div class="modal-body">
+          <form action="/update" method="POST">
+            <div class="form-group">
+              <label>ชื่อ:</label>
+              <input type="hidden" name="id" value="">
+              <input type="text" class="form-control" name="fname" value="">
+            </div>
+            <div class="form-group">
+              <label>นามสกุล:</label>
+              <input type="text" class="form-control" name="lname" value="">
+            </div>
+            <div class="form-group">
+              <label>เบอร์โทรศัพท์:</label>
+              <input type="text" class="form-control" name="phone" value="">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">อัพเดท</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+    </div>
+{% endblock %}

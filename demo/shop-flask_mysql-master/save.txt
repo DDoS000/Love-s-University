@@ -1,0 +1,6 @@
+https://www.w3schools.com/bootstrap/bootstrap_templates.asp
+https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_analytics&stacked=h
+https://www.w3schools.com/icons/icons_reference.asp
+https://www.w3schools.com/bootstrap/bootstrap_collapse.asp
+https://www.w3schools.com/bootstrap/bootstrap_tabs_pills.asp
+https://github.com/Durgaprasad-Nagarkatte/Simple-Flask-Shopping-Cart
