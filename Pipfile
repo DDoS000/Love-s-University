@@ -6,6 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
- 
+flask = "*"
+flask-wtf = "*"
+flask-login = "*"
+passlib = "*"
+pymysql = "*"
+
 [requires]
 python_version = "3.8"

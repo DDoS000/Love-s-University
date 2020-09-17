@@ -23,8 +23,13 @@ MYSQL_DB            = 'University'
 def index():
     return render_template('landing.html')
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
 @app.route('/map')
-def index():
+def map():
     return render_template('map.html')
 
 
