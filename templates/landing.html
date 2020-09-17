@@ -1,5 +1,26 @@
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block style %}
+<style>
+    .nav-tabs{
+        margin-top: 3cm;
+    }
 
+    .jumbotron{
+        background-color: black;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<nav>
+  <div class="nav nav-tabs nav-pills justify-content-center" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+  </div>
+</nav>
+<div class="tab-content jumbotron border border-dark" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+</div>
 {% endblock %}
