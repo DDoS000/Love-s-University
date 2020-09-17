@@ -14,7 +14,7 @@ MYSQL_PASSWORD      = 'Cloud2_Space'
 MYSQL_DB            = 'University'
 
 
-connection MySQL
+# connection MySQL
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
 
 
@@ -22,6 +22,11 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 @app.route('/')
 def index():
     return render_template('landing.html')
+
+@app.route('/map')
+def index():
+    return render_template('map.html')
+
 
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
