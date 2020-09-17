@@ -3,24 +3,152 @@
 {% block style %}
 <style>
     .nav-tabs{
-        margin-top: 3cm;
+        margin-top: 30px;
+    }
+
+    #map{
+        height: 500px;
+        width: 1050px;
     }
 
     .jumbotron{
-        background-color: black;
+        background-color: #474B54;
     }
 </style>
+
+<script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        myLatLng = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        document.getElementById('lat').value = myLatLng.lat;
+        document.getElementById('lng').value = myLatLng.lng;
+
+      }, function () {
+        handleLocationError(true, infoWindow, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+
+    function initMap() {
+      // Styles a map in night mode.
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: myLatLng,
+        zoom: 15,
+        styles: [
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative.land_parcel",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          }
+        ]
+      });
+      var iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
+        icon: '../static/icons/shopping-mall.svg'
+      });
+
+      var marker = new google.maps.Marker({
+        position: { lat: 15.116323, lng: 104.914275 },
+        map: map,
+        title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
+      
+      });
+
+      var marker = new google.maps.Marker({
+        position: { lat: 15.1134492, lng: 104.9123118 },
+        map: map,
+        title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
+      
+      });
+
+      var marker = new google.maps.Marker({
+        position: { lat: 15.112922, lng: 104.903349 },
+        map: map,
+        title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
+      
+      });
+
+      var marker = new google.maps.Marker({
+        position: { lat: 15.122407, lng: 104.893118 },
+        map: map,
+        title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
+      
+      });
+
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
+    defer></script>
 {% endblock %}
 
 {% block body %}
 <nav>
   <div class="nav nav-tabs nav-pills justify-content-center" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">สถานที่รอบตัวคุณ</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">สถานศึกษา</a>
   </div>
 </nav>
 <div class="tab-content jumbotron border border-dark" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div id="map" class="shadow-lg p-3 mb-5 bg-white rounded"></div>
+  </div>
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
 </div>
 {% endblock %}
