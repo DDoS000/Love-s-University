@@ -8,14 +8,14 @@ from functools import wraps
 app = Flask(__name__)
 
 # Config MySQL
-MYSQL_HOST          = 'localhost'
-MYSQL_USER          = 'root'
-MYSQL_PASSWORD      = ''
-MYSQL_DB            = 'shopfooddb'
+MYSQL_HOST          = '128.199.153.21'
+MYSQL_USER          = 'master'
+MYSQL_PASSWORD      = 'Cloud2_Space'
+MYSQL_DB            = 'University'
 
 
-#connection MySQL
-# connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
+connection MySQL
+connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
 
 
 # Index
