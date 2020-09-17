@@ -29,7 +29,7 @@ def test():
 
 
 @app.route('/map')
-def test():
+def map():
     return render_template('map.html')
 
 
