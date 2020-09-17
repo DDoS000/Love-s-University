@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Setting</h1>
+    {% for datas in data %}
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">อัพเดทข้อมูลของท่าน</h4>
+            </div>
+            <div class="modal-body">
+              <form action="/update" method="POST">
+                <div class="form-group">
+                  <label>ชื่อ:</label>
+                  <input type="text" class="form-control" name="name" value="{{datas.name}}">
+                </div>
+                <div class="form-group">
+                  <label>เบอร์โทรศัพท์:</label>
+                  <input type="text" class="form-control" name="phone" value="{{datas.phone}}">
+                </div>
+                <div class="form-group">
+                  <label>อีเมล:</label>
+                  <input type="text" class="form-control" name="email" value="{{datas.email}}">
+                </div>
+                <div class="form-group">
+                  <label>ที่อยู่:</label>
+                  <input type="text" class="form-control" name="city" value="{{datas.city}}">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">อัพเดท</button>
+                </div>
+              </form>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div> -->
+          </div>
+    {% endfor %}        
+        </div><br><br><br><br><br><br><br>
+{% endblock %}
