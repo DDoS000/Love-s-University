@@ -22,12 +22,9 @@
 </head>
 
 <body>
+  {% include 'includes/navbar.html' %}
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-2">
-      <!-- {% include 'includes/navbar.html' %} -->
-    </div>
-    <div class="col-10">
+    <div class="col">
       {% block body %}{% endblock %}
     </div>
   </div>

@@ -23,6 +23,16 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 def index():
     return render_template('landing.html')
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
+@app.route('/map')
+def test():
+    return render_template('map.html')
+
+
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
     app.run(debug=True)
