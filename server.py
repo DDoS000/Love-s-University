@@ -23,11 +23,6 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 def index():
     return render_template('landing.html')
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
-
 @app.route('/map')
 def map():
     return render_template('map.html')
