@@ -20,6 +20,10 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 
 # Index
 @app.route('/')
+def landing():
+    return render_template('landing.html')
+
+@app.route('/index')
 def index():
     return render_template('landing.html')
 
@@ -53,7 +57,7 @@ def register():
         x = cur.execute("SELECT * FROM members WHERE username = %s",(username))
 
         if int(x) > 0:
-            flash("That username is already taken, please choose another", 'danger')
+            # flash("That username is already taken, please choose another", 'danger')
             return render_template('login.html', form=form)
 
         # Execute query
@@ -99,7 +103,7 @@ def login():
                 session['email'] = email
 
                 flash('You are now logged in', 'success')
-                return redirect(url_for(''))
+                return redirect(url_for('index'))
             else:
                 error = 'Invalid login'
                 return redirect(url_for('register', error=error))
@@ -110,6 +114,15 @@ def login():
             return redirect(url_for('register', error=error))
 
     return redirect(url_for('register'))
+
+
+# Logout
+@app.route('/logout')
+# @is_logged_in
+def logout():
+    session.clear()
+    flash('You are now logged out', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
