@@ -12,43 +12,42 @@
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
 
 <style>
-  /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+
   #map {
     height: 75%;
     width: 75%;
   }
 
-  /* Optional: Makes the sample page fill the window. */
   html,
   body {
     height: 100%;
     margin: 0;
     padding: 0;
   }
+
 </style>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 {% endblock %}
 {% block body %}
 <script>
 
-  // if (navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition(function (position) {
-  //     myLatLng = {
-  //       lat: position.coords.latitude,
-  //       lng: position.coords.longitude
-  //     };
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      myLatLng = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
-  //   }, function () {
-  //     handleLocationError(true, infoWindow, map.getCenter());
-  //   });
-  // } else {
-  //   // Browser doesn't support Geolocation
-  //   handleLocationError(false, infoWindow, map.getCenter());
-  // }
+    }, function () {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
 
   function initMap() {
-    // Styles a map in night mode.
+
+    var datas = residents
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
     var lngi = [104.914275, 104.9123118, 104.903349, 104.893118]
     const contentString =
@@ -139,9 +138,7 @@
       animation: google.maps.Animation.DROP,
       title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
     });
-
-
-
+    
     for (var i = 0; i < lati.length; ++i) {
       var po = {
         lat: lati[i],
@@ -177,32 +174,30 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
   defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
 <center>
     <div id="map"></div>
 </center>
-<!-- Blog -->
+
 <div id="blog" class="section">
-  <!-- container -->
-  
-  <center>
-    <div style="margin-top: 40px;">
+
+  <!-- <center>
+    <div style="margin-top: 10px;">
       <h3>Nearby Apartments</h3>
     </div>
-  </center>
+  </center> -->
   <div class="container">
-
-
-    <!-- row -->
+    
+    
     <div class="row">
 
-      <!-- main blog -->
       <div id="main" class="col-md-9">
-
-        <!-- row -->
+        <div style="margin-top: 10px;">
+          <h3>Nearby Apartments</h3>
+        </div>
         <div class="row">
 
-          <!-- single blog -->
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -220,9 +215,7 @@
               </div>
             </div>
           </div>
-          <!-- /single blog -->
-
-          <!-- single blog -->
+     
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -240,9 +233,7 @@
               </div>
             </div>
           </div>
-          <!-- /single blog -->
-
-          <!-- single blog -->
+      
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -260,9 +251,7 @@
               </div>
             </div>
           </div>
-          <!-- /single blog -->
-
-          <!-- single blog -->
+         
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -280,15 +269,12 @@
               </div>
             </div>
           </div>
-          <!-- /single blog -->
+         
 
         </div>
-        <!-- /row -->
-
-        <!-- row -->
+     
         <div class="row">
 
-          <!-- pagination -->
           <div class="col-md-12">
             <div class="post-pagination">
               <a href="#" class="pagination-back pull-left">Back</a>
@@ -301,26 +287,20 @@
               <a href="#" class="pagination-next pull-right">Next</a>
             </div>
           </div>
-          <!-- pagination -->
 
         </div>
-        <!-- /row -->
-      </div>
-      <!-- /main blog -->
 
-      <!-- aside blog -->
+      </div>
+
       <div id="aside" class="col-md-3">
 
-        <!-- search widget -->
         <div class="widget search-widget">
           <form>
             <input class="input" type="text" name="search">
             <button><i class="fa fa-search"></i></button>
           </form>
         </div>
-        <!-- /search widget -->
 
-        <!-- category widget -->
         <div class="widget category-widget">
           <h3>Categories</h3>
           <a class="category" href="#">Web <span>12</span></a>
@@ -329,13 +309,10 @@
           <a class="category" href="#">Html <span>78</span></a>
           <a class="category" href="#">Business <span>36</span></a>
         </div>
-        <!-- /category widget -->
-
-        <!-- posts widget -->
+  
         <div class="widget posts-widget">
           <h3>Recents Posts</h3>
 
-          <!-- single posts -->
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post01.jpg" alt="">
@@ -343,9 +320,7 @@
             <a href="blog-post.html">------------------------</a>
             <p><small>-----------------</small></p>
           </div>
-          <!-- /single posts -->
-
-          <!-- single posts -->
+     
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post02.jpg" alt="">
@@ -353,9 +328,7 @@
             <a href="blog-post.html">Pro eu error molestie deserunt.</a>
             <p><small>By : John Doe .18 Oct, 2017</small></p>
           </div>
-          <!-- /single posts -->
-
-          <!-- single posts -->
+    
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post03.jpg" alt="">
@@ -363,12 +336,9 @@
             <a href="blog-post.html">Pro eu error molestie deserunt.</a>
             <p><small>By : John Doe .18 Oct, 2017</small></p>
           </div>
-          <!-- /single posts -->
 
         </div>
-        <!-- /posts widget -->
-
-        <!-- tags widget -->
+   
         <div class="widget tags-widget">
           <h3>Tags</h3>
           <a class="tag" href="#">Web</a>
@@ -380,32 +350,12 @@
           <a class="tag" href="#">Website</a>
           <a class="tag" href="#">Business</a>
         </div>
-        <!-- /tags widget -->
 
       </div>
-      <!-- /aside blog -->
 
     </div>
-    <!-- row -->
 
   </div>
-  <!-- container -->
 
 </div>
-<!-- /Blog -->
-
-<!-- preloader -->
-<div id='preloader'>
-  <div class='preloader'></div>
-</div>
-<!-- /preloader -->
-
-
-<!-- jQuery Plugins -->
-<script type="text/javascript" src="../static/js/jquery.min.js"></script>
-<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../static/js/main.js"></script>
-
-
-
 {% endblock %}

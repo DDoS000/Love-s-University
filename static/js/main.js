@@ -3,7 +3,6 @@
 	
 	// Preloader
 	$(window).on('load', function() {
-		$("#map").delay(600).fadeOut();
 		$("#preloader").delay(600).fadeOut();
 	});
 

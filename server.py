@@ -8,9 +8,9 @@ from functools import wraps
 app = Flask(__name__)
 
 # Config MySQL
-MYSQL_HOST          = '128.199.153.21'
+MYSQL_HOST          = '128.199.113.206'
 MYSQL_USER          = 'master'
-MYSQL_PASSWORD      = 'Cloud2_Space'
+MYSQL_PASSWORD      = 'love@123456'
 MYSQL_DB            = 'University'
 
 
@@ -29,7 +29,11 @@ def index():
 
 @app.route('/map')
 def map():
-    return render_template('map.html')
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM residents")
+    residents = cur.fetchall()
+    cur.close()
+    return render_template('map.html', residents=residents)
 
 # Register Form Class
 class RegisterForm(Form):
@@ -103,7 +107,7 @@ def login():
                 session['email'] = email
 
                 flash('You are now logged in', 'success')
-                return redirect(url_for('index'))
+                return redirect(url_for('map'))
             else:
                 error = 'Invalid login'
                 return redirect(url_for('register', error=error))
