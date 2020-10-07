@@ -31,10 +31,14 @@ def index():
 def map():
     return render_template('map.html')
 
+@app.route('/maps')
+def maps():
+    return render_template('maps.html')
+
 # Register Form Class
 class RegisterForm(Form):
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
+    usernamae = StringField('Username', [validators.Length(min=4, max=25)])
+    email = StringField('Email', [validtors.Length(min=6, max=50)])
     password = PasswordField('Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords do not match')
