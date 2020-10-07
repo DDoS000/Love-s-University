@@ -31,9 +31,9 @@ def index():
 def map():
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents")
-    residents = cur.fetchall()
+    data = cur.fetchall()
     cur.close()
-    return render_template('map.html', residents=residents)
+    return render_template('map.html', residents=data)
 
 # Register Form Class
 class RegisterForm(Form):
