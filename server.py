@@ -27,6 +27,10 @@ def landing():
 def index():
     return render_template('landing.html')
 
+@app.route('/OTP')
+def OTP():
+    return render_template('OTP.html')
+
 @app.route('/map')
 def map():
     cur = connection.cursor()
