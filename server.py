@@ -17,7 +17,6 @@ MYSQL_DB            = 'University'
 # connection MySQL
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
 
-
 # Index
 @app.route('/')
 def landing():
@@ -35,6 +34,11 @@ def map():
     cur.close()
     return render_template('map.html', residents=data)
 
+
+@app.route('/add-residents')
+def add():
+    return render_template('addResidents.html')
+
 # Register Form Class
 class RegisterForm(Form):
     username = StringField('Username', [validators.Length(min=4, max=25)])
@@ -44,7 +48,6 @@ class RegisterForm(Form):
         validators.EqualTo('confirm', message='Passwords do not match')
     ])
     confirm = PasswordField('Confirm Password')
-
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -98,7 +101,6 @@ def login():
             password = data['password']
             email = data['email']
 
-
             # Compare Passwords
             if sha256_crypt.verify(password_candidate, password):
                 # Passed
@@ -118,7 +120,6 @@ def login():
             return redirect(url_for('register', error=error))
 
     return redirect(url_for('register'))
-
 
 # Logout
 @app.route('/logout')

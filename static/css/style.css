@@ -31,8 +31,10 @@ Table OF Contents
 	General
 \*------------------------------------*/
 /* --- typography --- */
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Prompt';
 	font-size: 15px;
     font-weight: 400;
     color: #798696;
@@ -40,10 +42,11 @@ body {
 }
 
 thai {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Prompt';
 }
 
 h1,h2,h3,h4,h5,h6 {
+	font-family: 'Prompt';
 	margin-top: 12px;
 	margin-bottom: 15px;
 	font-weight: 600;
@@ -52,22 +55,26 @@ h1,h2,h3,h4,h5,h6 {
 
 h1 {
 	font-size:38px;
+	font-family: 'Prompt';
 }
 
 h2 {
 	font-size:30px;
+	font-family: 'Prompt';
 }
 
 h3 {
 	font-size:24px;
+	font-family: 'Prompt';
 }
 
 h4 {
 	font-size:18px;
+	font-family: 'Prompt';
 }
 
 a {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Prompt';
 	color: #374050;
 	font-weight: 700;
 }
@@ -81,6 +88,7 @@ a:focus{
 }
 
 ul,ol{
+	font-family: 'Prompt';
     margin: 0;
     padding: 0;
     list-style: none
@@ -301,6 +309,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 /* -- Mobile Nav -- */
 @media only screen and (max-width: 767px) {
 	#nav {
+		font-family: 'Prompt';
 		position: fixed;
 		top: 0;
 		right: 0;
@@ -428,7 +437,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 /* -- Breadcrumb -- */
 .hero-area-tree li {
 	display:inline-block;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Prompt';
 	font-weight:600;
 	font-size:14px;
 	color:rgba(255, 255, 255, 0.8);
