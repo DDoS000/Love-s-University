@@ -27,8 +27,11 @@
 </style>
 {% endblock %}
 {% block body %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
+  defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
-
+  var myLatLng;
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       myLatLng = {
@@ -44,14 +47,17 @@
     handleLocationError(false, infoWindow, map.getCenter());
   }
 
-  
   function initMap() {
     var residents = document.getElementById('residents').value;
-    console.log("data=",residents);
-    
+    console.log("data=", residents);
+
     // var datas = residents
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
     var lngi = [104.914275, 104.9123118, 104.903349, 104.893118]
+    // console.log(Math.sqrt(Math.pow((15.1134492 - 15.116323), 2) + Math.pow((104.9123118 -
+    //   104.914275), 2)))
+    
+
     const contentString =
       '<div id="content">' +
       '<div id="siteNotice">' +
@@ -174,13 +180,10 @@
     });
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
-  defer></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
 <div id="blog" class="section">
-  
-  <input id="residents" value={{residents}} hidden/>
+
+  <input id="residents" value={{residents}} hidden />
   <!-- <center>
     <div style="margin-top: 10px;">
       <h3>Nearby Apartments</h3>
