@@ -1,6 +1,7 @@
+<!-- {% extends 'layout.html' %} -->
 {% block style %}
 
-<link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
+<!-- <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet"> -->
 
 <!-- Bootstrap -->
 <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.min.css" />
@@ -12,7 +13,6 @@
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
 
 <style>
-
   #map {
     height: 75%;
     width: 75%;
@@ -24,7 +24,6 @@
     margin: 0;
     padding: 0;
   }
-
 </style>
 {% endblock %}
 {% block body %}
@@ -45,9 +44,12 @@
     handleLocationError(false, infoWindow, map.getCenter());
   }
 
+  
   function initMap() {
-
-    var datas = residents
+    var residents = document.getElementById('residents').value;
+    console.log("data=",residents);
+    
+    // var datas = residents
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
     var lngi = [104.914275, 104.9123118, 104.903349, 104.893118]
     const contentString =
@@ -138,7 +140,7 @@
       animation: google.maps.Animation.DROP,
       title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
     });
-    
+
     for (var i = 0; i < lati.length; ++i) {
       var po = {
         lat: lati[i],
@@ -176,21 +178,19 @@
   defer></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
-<center>
-    <div id="map"></div>
-</center>
-
 <div id="blog" class="section">
-
+  
+  <input id="residents" value={{residents}} hidden/>
   <!-- <center>
     <div style="margin-top: 10px;">
       <h3>Nearby Apartments</h3>
     </div>
   </center> -->
   <div class="container">
-    
-    
-    <div class="row">
+    <center>
+      <div id="map"></div>
+    </center>
+    <div class="row" style="margin-top: 20px;">
 
       <div id="main" class="col-md-9">
         <div style="margin-top: 10px;">
@@ -215,7 +215,7 @@
               </div>
             </div>
           </div>
-     
+
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -233,7 +233,7 @@
               </div>
             </div>
           </div>
-      
+
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -251,7 +251,7 @@
               </div>
             </div>
           </div>
-         
+
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
@@ -269,10 +269,10 @@
               </div>
             </div>
           </div>
-         
+
 
         </div>
-     
+
         <div class="row">
 
           <div class="col-md-12">
@@ -309,7 +309,7 @@
           <a class="category" href="#">Html <span>78</span></a>
           <a class="category" href="#">Business <span>36</span></a>
         </div>
-  
+
         <div class="widget posts-widget">
           <h3>Recents Posts</h3>
 
@@ -320,7 +320,7 @@
             <a href="blog-post.html">------------------------</a>
             <p><small>-----------------</small></p>
           </div>
-     
+
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post02.jpg" alt="">
@@ -328,7 +328,7 @@
             <a href="blog-post.html">Pro eu error molestie deserunt.</a>
             <p><small>By : John Doe .18 Oct, 2017</small></p>
           </div>
-    
+
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post03.jpg" alt="">
@@ -338,7 +338,7 @@
           </div>
 
         </div>
-   
+
         <div class="widget tags-widget">
           <h3>Tags</h3>
           <a class="tag" href="#">Web</a>
