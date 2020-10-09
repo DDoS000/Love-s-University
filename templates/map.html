@@ -27,8 +27,11 @@
 </style>
 {% endblock %}
 {% block body %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
+  defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
-
+  var myLatLng;
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       myLatLng = {
@@ -44,14 +47,17 @@
     handleLocationError(false, infoWindow, map.getCenter());
   }
 
-  
   function initMap() {
     var residents = document.getElementById('residents').value;
-    console.log("data=",residents);
-    
+    console.log("data=", residents);
+
     // var datas = residents
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
     var lngi = [104.914275, 104.9123118, 104.903349, 104.893118]
+    // console.log(Math.sqrt(Math.pow((15.1134492 - 15.116323), 2) + Math.pow((104.9123118 -
+    //   104.914275), 2)))
+
+
     const contentString =
       '<div id="content">' +
       '<div id="siteNotice">' +
@@ -174,22 +180,21 @@
     });
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
-  defer></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
 <div id="blog" class="section">
-  
-  <input id="residents" value={{residents}} hidden/>
+
+  <input id="residents" value={{residents}} hidden />
   <!-- <center>
     <div style="margin-top: 10px;">
       <h3>Nearby Apartments</h3>
     </div>
   </center> -->
   <div class="container">
-    <center>
-      <div id="map"></div>
-    </center>
+    <div>
+      <center>
+        <div id="map"></div>
+      </center>
+    </div>
     <div class="row" style="margin-top: 20px;">
 
       <div id="main" class="col-md-9">
@@ -201,16 +206,16 @@
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
-                <a href="blog-post.html">
+                <a href="resident">
                   <img src="/static/image/img/undraw_apartment.svg" alt="">
                 </a>
               </div>
-              <h4><a href="blog-post.html">Aparement ..</a></h4>
+              <h4><a href="resident">Apartment ..</a></h4>
               <div class="blog-meta">
                 <span class="blog-meta-author">By: <a href="#">Worawit P.</a></span>
                 <div class="pull-right">
                   <span>18 Oct, 2017</span>
-                  <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span>
+                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
                 </div>
               </div>
             </div>
@@ -219,16 +224,16 @@
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
-                <a href="blog-post.html">
+                <a href="resident">
                   <img src="/static/image/img/undraw_apartment.svg" alt="">
                 </a>
               </div>
-              <h4><a href="blog-post.html">Aparement ..</a></h4>
+              <h4><a href="resident">Apartment ..</a></h4>
               <div class="blog-meta">
                 <span class="blog-meta-author">By: <a href="#">Kittirat A.</a></span>
                 <div class="pull-right">
                   <span>18 Oct, 2017</span>
-                  <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span>
+                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
                 </div>
               </div>
             </div>
@@ -237,16 +242,16 @@
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
-                <a href="blog-post.html">
+                <a href="resident">
                   <img src="/static/image/img/undraw_apartment.svg" alt="">
                 </a>
               </div>
-              <h4><a href="blog-post.html">Aparement ..</a></h4>
+              <h4><a href="resident">Apartment ..</a></h4>
               <div class="blog-meta">
                 <span class="blog-meta-author">By: <a href="#">Suphamongkhon K.</a></span>
                 <div class="pull-right">
                   <span>18 Oct, 2017</span>
-                  <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span>
+                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
                 </div>
               </div>
             </div>
@@ -255,16 +260,16 @@
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
-                <a href="blog-post.html">
+                <a href="resident">
                   <img src="/static/image/img/undraw_apartment.svg" alt="">
                 </a>
               </div>
-              <h4><a href="blog-post.html">Aparement ..</a></h4>
+              <h4><a href="resident">Apartment ..</a></h4>
               <div class="blog-meta">
                 <span class="blog-meta-author">By: <a href="#">Kittiphon P.</a></span>
                 <div class="pull-right">
                   <span>18 Oct, 2017</span>
-                  <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span>
+                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
                 </div>
               </div>
             </div>
@@ -358,4 +363,11 @@
   </div>
 
 </div>
+<!-- <div id='preloader'>
+  <div class='preloader'></div>
+</div>
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script> -->
+
 {% endblock %}

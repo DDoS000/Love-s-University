@@ -43,6 +43,10 @@ def map():
 def add():
     return render_template('addResidents.html')
 
+@app.route('/resident')
+def select():
+    return render_template('resident.html')
+
 # Register Form Class
 class RegisterForm(Form):
     username = StringField('Username', [validators.Length(min=4, max=25)])
