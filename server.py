@@ -4,6 +4,9 @@ import pymysql.cursors
 from passlib.hash import sha256_crypt
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from functools import wraps
+from werkzeug.utils import secure_filename
+import os
+
 
 app = Flask(__name__)
 
@@ -120,6 +123,7 @@ def login():
     return redirect(url_for('register'))
 
 
+
 # Logout
 @app.route('/logout')
 # @is_logged_in
@@ -128,6 +132,55 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
+ 
+# Add Location form User
+
+app.config['IMAGE_UPLOAD'] = "static\image"
+app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
+
+def allowed_image(filename):
+
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    if ext.upper() in app.config['ALLOWED_IMAGE_EXTENTIONS']:
+        return True
+    else:
+        return False
+
+@app.route('/addlocation', methods=["GET", "POST"])
+
+def addlocation():
+
+    if request.method == "POST" :
+        if request.files:
+
+            image = request.files["image"]
+
+            if image.filename == "":
+                print("Image must have a filename")
+                return redirect(request.url)
+
+            if not allowed_image(image.filename):
+                print("That image extention is not allow")
+                return redirect(request.url)
+
+            else:
+                filename = secure_filename(image.filename)
+
+                image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
+            print("Image saved")
+            
+            return redirect(request.url)
+
+    return render_template("addlocation.html")
+
+
+
+
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
     app.run(debug=True)
+    
