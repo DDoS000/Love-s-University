@@ -4,7 +4,6 @@ import pymysql.cursors
 from passlib.hash import sha256_crypt
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from functools import wraps
-import re
 from werkzeug.utils import secure_filename
 import os
 
@@ -17,6 +16,8 @@ MYSQL_USER          = 'master'
 MYSQL_PASSWORD      = 'love@123456'
 MYSQL_DB            = 'University'
 
+app.config['IMAGE_UPLOAD'] = "static\image"
+app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 
 # connection MySQL
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
@@ -154,8 +155,7 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-@app.route('addre', methods=['GET', 'POST'])
-@is_logged_in
+@app.route('/addre', methods=['GET', 'POST'])
 def addre():
     if request.method == 'POST':
         user_id = request.form['addformuser']
@@ -167,7 +167,7 @@ def addre():
         details = request.form['details']
         phoneConnect = request.form['phoneConnect']
         OtherConnect = request.form['OtherConnect']
-        image = request.form['image']
+        image = request.files['image']
         air = request.form['air']
         fan = request.form['fan']
         water_heater = request.form['water_heater']
@@ -187,13 +187,14 @@ def addre():
         laundry = request.form['laundry']
         hair_salon = request.form['hair_salon']
 
-
+        filename = secure_filename(image.filename)
+        image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
         # Create cursor
         cur = connection.cursor()
         x = cur.execute("SELECT * FROM residents WHERE email = %s",(residentName))
         if int(x) > 0:
             flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
-        cur.execute("INSERT INTO residents(user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
+        cur.execute("INSERT INTO residents(user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
 
          # Commit to DB
         connection.commit()
@@ -202,60 +203,8 @@ def addre():
         cur.close()
 
         flash('You are now registered and can log in', 'success')
-
         # return redirect(url_for('register'))
-
-@app.route('addre', methods=['GET', 'POST'])
-@is_logged_in
-def addre():
- 
-# Add Location form User
-
-app.config['IMAGE_UPLOAD'] = "static\image"
-app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
-
-def allowed_image(filename):
-
-    if not "." in filename:
-        return False
-
-    ext = filename.rsplit(".", 1)[1]
-
-    if ext.upper() in app.config['ALLOWED_IMAGE_EXTENTIONS']:
-        return True
-    else:
-        return False
-
-@app.route('/addlocation', methods=["GET", "POST"])
-
-def addlocation():
-
-    if request.method == "POST" :
-
-        if request.files:
-
-            image = request.files["image"]
-
-            if image.filename == "":
-                print("Image must have a filename")
-                return redirect(request.url)
-
-            if not allowed_image(image.filename):
-                print("That image extention is not allow")
-                return redirect(request.url)
-
-            else:
-                filename = secure_filename(image.filename)
-
-                image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
-            print("Image saved")
-
-            
-            return redirect(request.url)
-
     return render_template("addlocation.html")
-
-
 
 
 if __name__ == '__main__':
