@@ -26,6 +26,10 @@ def landing():
 def index():
     return render_template('landing.html')
 
+@app.route('/Addmin')
+def Addmin():
+    return render_template('Addmin.html')
+
 @app.route('/OTP')
 def OTP():
     return render_template('OTP.html')
