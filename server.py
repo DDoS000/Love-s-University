@@ -44,14 +44,6 @@ def map():
     cur.close()
     return render_template('map.html', datas=datas)
 
-# @app.route('/add-residents')
-# def add():
-#     return render_template('addResidents.html')
-
-@app.route('/resident')
-def select():
-    return render_template('resident.html')
-
 
 # Register Form Class
 class RegisterForm(Form):

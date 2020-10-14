@@ -8,7 +8,6 @@
 
 <!-- Font Awesome Icon -->
 <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
@@ -36,17 +35,27 @@
 
 <script>
 
-    var datas = {{ datas| tojson}};
-    console.log(datas[0]);
-    var LatLng = {
-        lat: parseFloat(datas[0].lat),
-        lng: parseFloat(datas[0].lng)
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            myLatLng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
     }
+
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-            center: LatLng,
-            zoom: 16,
+            center: myLatLng,
+            zoom: 15,
             styles: [
                 {
                     "featureType": "administrative",
@@ -106,8 +115,7 @@
 
 
         var my = new google.maps.Marker({
-            icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
-            position: LatLng,
+            position: myLatLng,
             map: map,
             animation: google.maps.Animation.DROP,
 
@@ -123,184 +131,64 @@
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <a href="/map"><button>Back</button></a>
         <div class="row">
             <!-- contact form -->
             <div class="col-md-6 ">
                 <div class="contact-form navbar-brand ">
-                    <h4>{{datas[0].name}}</h4>
+                    <h4>Name..</h4>
 
-                    <img src="/static/image/{{datas[0].image}}" alt="Paris" width="450" height="450">
-
-                        <div class="row" style="margin-top:20px;">
-                            <h4>rating:<h4>
-                            <p style="margin-top:8px; margin-left: 10px;"></p>
-                        </div>
-                        <div class="row">
-                            <h4>price:</h4> 
-                            <p style="margin-top:8px; margin-left: 10px;">{{datas[0].price}}</p>
-                        </div>
-
-                        <div class="row">
-                            <h4>detail:</h4> 
-                            <p style="margin-top:8px; margin-left: 10px;">{{datas[0].details}}</p>
-                        </div>
-
-
-                    
-                    <div class="row w3-card-4">
-                        <div style="margin-left:10%; margin-top:5%; margin-bottom:5%;">
-                            <h4>detail</h4>
-                            {% if datas[0].air != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                    <img src="https://hor2u.com/upload_hotel_img/_upload/24171_20170331.jpg" alt="Paris" width="450"
+                        height="450">
+                    <p style="margin-top:20px">rating: 4/5</p>
+                    <p>price:</p>
+                    <p>detail:</p>
+                    <div class="row">
+                        <div>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> air</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> air</label><br>
-                            {% endif %}
-
-
-                            {% if datas[0].fan != "" %}
                             <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> fan</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> fan</label><br>
-                            {% endif %}
-
-                            {% if datas[0].water_heater != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> water heater</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> water heater</label><br>
-                            {% endif %}
-
-                            {% if datas[0].furniture != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> furniture</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> furniture</label><br>
-                            {% endif %}
-
-                            {% if datas[0].cable_tv != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> cable tv</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> cable tv</label><br>
-                            {% endif %}
-
-                            {% if datas[0].phone_direct != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> direct phone</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> direct phone</label><br>
-                            {% endif %}
-
-                            {% if datas[0].pet != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <label for="vehicle2"> fan</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
+                            <label for="vehicle3"> water heater</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
+                            <label for="vehicle3"> furniture</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3">
+                            <label for="vehicle3"> cable tv</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
+                            <label for="vehicle3"> direct phone</label><br>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> pet</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> pet</label><br>
-                            {% endif %}
-
-                            {% if datas[0].internet != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> internet</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> internet</label><br>
-                            {% endif %}
-
-                            {% if datas[0].pool != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle3" name="vehicle3">
+                            <label for="vehicle3"> internet</label><br>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> pool</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> pool</label><br>
-                            {% endif %}
-
-                            {% if datas[0].fitness != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> fitness</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> fitness</label><br>
-                            {% endif %}
-
 
                         </div>
+                        <div style="margin-left: 50px;">
 
-                        <div style="margin-left: 50px; margin-top:15%; margin-bottom:5%;">
+                        </div>
+                        <div>
 
-                            {% if datas[0].smoking != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" >
                             <label for="vehicle1"> smoking</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> smoking</label><br>
-                            {% endif %}
-
-                            {% if datas[0].parking != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> parking</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> parking</label><br>
-                            {% endif %}
-
-                            {% if datas[0].elevators != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle1"> elevators</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> elevators</label><br>
-                            {% endif %}
-
-                            {% if datas[0].security != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            <label for="vehicle1"> elevator</label><br>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> security</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> security</label><br>
-                            {% endif %}
-
-                            {% if datas[0].keycard != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" >
+                            <label for="vehicle1"> air</label><br>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> keycard</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> keycard</label><br>
-                            {% endif %}
-
-                            {% if datas[0].cctv != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" >
                             <label for="vehicle1"> cctv</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> cctv</label><br>
-                            {% endif %}
-
-                            {% if datas[0].hair_salon != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" >
                             <label for="vehicle1"> hair salon</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> hair salon</label><br>
-                            {% endif %}
-
-                            {% if datas[0].laundry != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
                             <label for="vehicle1"> laundry</label><br>
-                            {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
-                            <label for="vehicle1"> laundry</label><br>
-                            {% endif %}
-
                         </div>
                     </div>
                 </div>
@@ -311,8 +199,9 @@
             <div class="col-md-5 col-md-offset-1">
                 <h4>Contact Information</h4>
                 <ul class="contact-details">
-                    <li><i class="fa fa-envelope"></i>{{datas[0].OtherConnect}}</li>
-                    <li><i class="fa fa-phone"></i>{{datas[0].phoneConnect}}</li>
+                    <li><i class="fa fa-envelope"></i>Educate@email.com</li>
+                    <li><i class="fa fa-phone"></i>122-547-223-45</li>
+                    <li><i class="fa fa-map-marker"></i>4476 Clement Street</li>
                 </ul>
 
                 <!-- contact map -->
