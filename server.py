@@ -155,6 +155,7 @@ def allowed_image(filename):
 def addlocation():
 
     if request.method == "POST" :
+
         if request.files:
 
             image = request.files["image"]
@@ -172,6 +173,7 @@ def addlocation():
 
                 image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
             print("Image saved")
+
             
             return redirect(request.url)
 
