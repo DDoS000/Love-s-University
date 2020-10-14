@@ -22,7 +22,6 @@ app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 # connection MySQL
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
 
-
 # Index
 @app.route('/')
 def landing():
@@ -32,13 +31,22 @@ def landing():
 def index():
     return render_template('landing.html')
 
+@app.route('/OTP')
+def OTP():
+    return render_template('OTP.html')
+
 @app.route('/map')
 def map():
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents")
-    residents = cur.fetchall()
+    data = cur.fetchall()
     cur.close()
-    return render_template('map.html', residents=residents)
+    return render_template('map.html', residents=data)
+
+
+@app.route('/add-residents')
+def add():
+    return render_template('addResidents.html')
 
 # Register Form Class
 class RegisterForm(Form):
@@ -53,7 +61,6 @@ class RegisterForm(Form):
         validators.EqualTo('confirm', message='พาสไม่ตรงกัน')
     ])
     confirm = PasswordField('Confirm Password')
-
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
