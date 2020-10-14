@@ -172,7 +172,7 @@ def addlocation():
                 filename = secure_filename(image.filename)
 
                 image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
-            print("Image saved")
+            print("Image save")
 
             
             return redirect(request.url)
