@@ -31,6 +31,7 @@ def landing():
 def index():
     return render_template('landing.html')
 
+
 @app.route('/OTP')
 def OTP():
     return render_template('OTP.html')
@@ -217,6 +218,14 @@ def add():
         flash('You are now registered and can log in', 'success')
         # return redirect(url_for('register'))
     return render_template("add.html")
+
+@app.route('/resident/<string:id>',methods=['GET'])
+def resident(id):
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
+    datas = cur.fetchall()
+    cur.close()
+    return render_template("resident.html",datas=datas)
 
 
 if __name__ == '__main__':

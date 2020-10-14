@@ -186,16 +186,15 @@
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
-                <a href="resident">
+                <a href="resident/{{i.residentId}}">
                   <img src="/static/image/{{i.image}}" alt="">
                 </a>
               </div>
-              <h4><a href="resident">{{i.residentName}}</a></h4>
+              <h4><a href="resident/{{i.residentId}}">{{i.residentName}}</a></h4>
               <div class="blog-meta">
-                <span class="blog-meta-author">Price: <a href="#">{{i.price}}</a></span>
+                <span class="blog-meta-author">Price: <a href="resident/{{i.residentId}}">{{i.price}}</a></span>
                 <div class="pull-right">
-                  <!-- <span>18 Oct, 2017</span> -->
-                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
+                  <span>18 Oct, 2017</span>
                 </div>
               </div>
             </div>
