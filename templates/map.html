@@ -15,7 +15,7 @@
 <style>
   #map {
     height: 75%;
-    width: 75%;
+    width: 100%;
   }
 
   html,
@@ -142,7 +142,7 @@
       '<center>' +
       '<img src="/static/image/'+datas[i].image+'"alt="Girl in a jacket" width="240" height="150">' +
       '<center/>' +
-      '<h1 id="firstHeading" class="firstHeading">'+datas[i].residentName+'</h1>' +
+      '<h4 id="firstHeading" class="firstHeading">'+datas[i].residentName+'</h4>' +
       '<div id="bodyContent">' +
       "<p>"+datas[i].details+"</p>" +
       
@@ -187,7 +187,7 @@
             <div class="single-blog">
               <div class="blog-img">
                 <a href="resident/{{i.residentId}}">
-                  <img src="/static/image/{{i.image}}" alt="">
+                  <img src="/static/image/{{i.image}}" style="max-height: 400px;" alt="">
                 </a>
               </div>
               <h4><a href="resident/{{i.residentId}}">{{i.residentName}}</a></h4>
@@ -237,16 +237,16 @@
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post02.jpg" alt="">
             </a>
-            <a href="blog-post.html">Pro eu error molestie deserunt.</a>
-            <p><small>By : John Doe .18 Oct, 2017</small></p>
+            <a href="blog-post.html">------------------------</a>
+            <p><small>----------------</small></p>
           </div>
 
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post03.jpg" alt="">
             </a>
-            <a href="blog-post.html">Pro eu error molestie deserunt.</a>
-            <p><small>By : John Doe .18 Oct, 2017</small></p>
+            <a href="blog-post.html">------------------------</a>
+            <p><small>------------------</small></p>
           </div>
 
         </div>
