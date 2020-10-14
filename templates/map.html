@@ -48,8 +48,11 @@
   }
 
   function initMap() {
-    var residents = document.getElementById('residents').value;
-    console.log("data=", residents);
+    // var residents = document.getElementById('residents').value;
+    // console.log(residents);
+    // for(let i =0 ; i < residents.length ; i++) {
+    //   console.log(residents[i]);
+    // }
 
     // var datas = residents
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
@@ -182,8 +185,11 @@
 </script>
 
 <div id="blog" class="section">
+  {% for i in data %}
+     <p>i</p>
+  {% endfor %}
 
-  <input id="residents" value={{residents}} hidden />
+  <!-- <input id="residents" value={{residents}} hidden /> -->
   <!-- <center>
     <div style="margin-top: 10px;">
       <h3>Nearby Apartments</h3>
