@@ -202,79 +202,25 @@
           <h3>Nearby Apartments</h3>
         </div>
         <div class="row">
-
+          {% for i in datas %}
           <div class="col-md-6">
             <div class="single-blog">
               <div class="blog-img">
                 <a href="resident">
-                  <img src="/static/image/img/undraw_apartment.svg" alt="">
+                  <img src="/static/image/{{i.image}}" alt="">
                 </a>
               </div>
-              <h4><a href="resident">Apartment ..</a></h4>
+              <h4><a href="resident">{{i.residentName}}</a></h4>
               <div class="blog-meta">
-                <span class="blog-meta-author">By: <a href="#">Worawit P.</a></span>
+                <span class="blog-meta-author">Price: <a href="#">{{i.price}}</a></span>
                 <div class="pull-right">
-                  <span>18 Oct, 2017</span>
+                  <!-- <span>18 Oct, 2017</span> -->
                   <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-md-6">
-            <div class="single-blog">
-              <div class="blog-img">
-                <a href="resident">
-                  <img src="/static/image/img/undraw_apartment.svg" alt="">
-                </a>
-              </div>
-              <h4><a href="resident">Apartment ..</a></h4>
-              <div class="blog-meta">
-                <span class="blog-meta-author">By: <a href="#">Kittirat A.</a></span>
-                <div class="pull-right">
-                  <span>18 Oct, 2017</span>
-                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="single-blog">
-              <div class="blog-img">
-                <a href="resident">
-                  <img src="/static/image/img/undraw_apartment.svg" alt="">
-                </a>
-              </div>
-              <h4><a href="resident">Apartment ..</a></h4>
-              <div class="blog-meta">
-                <span class="blog-meta-author">By: <a href="#">Suphamongkhon K.</a></span>
-                <div class="pull-right">
-                  <span>18 Oct, 2017</span>
-                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="single-blog">
-              <div class="blog-img">
-                <a href="resident">
-                  <img src="/static/image/img/undraw_apartment.svg" alt="">
-                </a>
-              </div>
-              <h4><a href="resident">Apartment ..</a></h4>
-              <div class="blog-meta">
-                <span class="blog-meta-author">By: <a href="#">Kittiphon P.</a></span>
-                <div class="pull-right">
-                  <span>18 Oct, 2017</span>
-                  <!-- <span class="blog-meta-comments"><a href="#"><i class="fa fa-comments"></i> 35</a></span> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
+          {% endfor %}
 
         </div>
 
@@ -342,18 +288,6 @@
             <p><small>By : John Doe .18 Oct, 2017</small></p>
           </div>
 
-        </div>
-
-        <div class="widget tags-widget">
-          <h3>Tags</h3>
-          <a class="tag" href="#">Web</a>
-          <a class="tag" href="#">Photography</a>
-          <a class="tag" href="#">Css</a>
-          <a class="tag" href="#">Responsive</a>
-          <a class="tag" href="#">Wordpress</a>
-          <a class="tag" href="#">Html</a>
-          <a class="tag" href="#">Website</a>
-          <a class="tag" href="#">Business</a>
         </div>
 
       </div>

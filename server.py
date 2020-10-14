@@ -39,9 +39,10 @@ def OTP():
 def map():
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents")
-    data = cur.fetchall()
+    print(result)
+    datas = cur.fetchall()
     cur.close()
-    return render_template('map.html', residents=data)
+    return render_template('map.html', datas=datas)
 
 
 # Register Form Class
