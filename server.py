@@ -39,7 +39,7 @@ def OTP():
 @app.route('/map')
 def map():
     cur = connection.cursor()
-    result = cur.execute("SELECT * FROM residents")
+    cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
     return render_template('map.html', datas=datas)
