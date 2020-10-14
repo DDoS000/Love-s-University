@@ -130,24 +130,24 @@
                 <div class="contact-form navbar-brand ">
                     <h4>{{datas[0].name}}</h4>
 
-                    <img src="/static/image/{{datas[0].image}}" alt="Paris" width="450" height="450">
+                    <img class="w3-card" src="/static/image/{{datas[0].image}}" alt="Paris" width="450" height="450">
 
-                        <div class="row" style="margin-top:20px;">
-                            <h4>rating:<h4>
-                            <p style="margin-top:8px; margin-left: 10px;"></p>
-                        </div>
-                        <div class="row">
-                            <h4>price:</h4> 
-                            <p style="margin-top:8px; margin-left: 10px;">{{datas[0].price}}</p>
-                        </div>
+                    <div class="row" style="margin-top:20px;">
+                        <h4>rating:<h4>
+                                <p style="margin-top:8px; margin-left: 10px;"></p>
+                    </div>
+                    <div class="row">
+                        <h4>price:</h4>
+                        <p style="margin-top:8px; margin-left: 10px;">{{datas[0].price}}</p>
+                    </div>
 
-                        <div class="row">
-                            <h4>detail:</h4> 
-                            <p style="margin-top:8px; margin-left: 10px;">{{datas[0].details}}</p>
-                        </div>
+                    <div class="row">
+                        <h4>detail:</h4>
+                        <p style="margin-top:8px; margin-left: 10px;">{{datas[0].details}}</p>
+                    </div>
 
 
-                    
+
                     <div class="row w3-card-4">
                         <div style="margin-left:10%; margin-top:5%; margin-bottom:5%;">
                             <h4>detail</h4>
@@ -316,8 +316,38 @@
                 </ul>
 
                 <!-- contact map -->
-                <div id="map"></div>
+                <div class="w3-card" id="map"></div>
                 <!-- /contact map -->
+                <ul class="contact-details row w3-card" style="margin-top: 40px; margin-left: 3px;">
+                    <div style="margin-left: 20px; margin-top: 20px;">
+                        <li>
+                            <h4>Comment</h4>
+                        </li>
+                        <li><input></li>
+                    </div>
+                    <div style="margin-left: 20px; margin-top: 20px;">
+                        <li>
+                            <h4>rating</h4>
+                        </li>
+                        <form action="/action_page.php">
+                            <select name="rating" id="rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <input type="submit" value="Submit">
+                        </form>
+
+                    </div>
+
+                    <div style="margin-left: 20px; margin-bottom: 20px;">
+                        <li >
+                            <h4>Other comments</h4>
+                        </li>
+                    </div>
+                </ul>
+
 
             </div>
             <!-- contact information -->
