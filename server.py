@@ -48,9 +48,8 @@ def map():
 
 # Register Form Class
 class RegisterForm(Form):
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email', [
-        validators.Regexp('@ubu.ac.th', message="กรุณาใช้เมล@ubu.ac.th"),
+    email = StringField('email', [
+        validators.Regexp('[\w.+\-]+@ubu.ac\.th$', message="กรุณาใช้เมล@ubu.ac.th"),
     ])
     fname = StringField('firstName', [validators.Length(min=6, max=50)])
     lastName = StringField('lastName', [validators.Length(min=6, max=50)])
@@ -68,7 +67,7 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
         fname = form.fname.data
-        lastName = form.lastNam.data
+        lastName = form.lastName.data
 
         # Create cursor
         cur = connection.cursor()
@@ -80,7 +79,7 @@ def register():
             return render_template('login.html', form=form)
 
         # Execute query
-        cur.execute("INSERT INTO members(email, username, password, firstName, lastName) VALUES(%s, %s, %s, %s, %s)", (email, username, password, fname, lastName))
+        cur.execute("INSERT INTO members(email, password, firstName, lastName) VALUES(%s, %s, %s, %s)", (email, password, fname, lastName))
 
         # Commit to DB
         connection.commit()
