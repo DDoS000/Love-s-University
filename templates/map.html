@@ -15,7 +15,7 @@
 <style>
   #map {
     height: 75%;
-    width: 75%;
+    width: 100%;
   }
 
   html,
@@ -48,36 +48,13 @@
   }
 
   function initMap() {
-    var residents = document.getElementById('residents').value;
-    console.log("data=", residents);
 
-    // var datas = residents
+    var datas = {{datas|tojson}};
+    console.log({datas});
+
+    
     var lati = [15.116323, 15.1134492, 15.112922, 15.122407]
     var lngi = [104.914275, 104.9123118, 104.903349, 104.893118]
-    // console.log(Math.sqrt(Math.pow((15.1134492 - 15.116323), 2) + Math.pow((104.9123118 -
-    //   104.914275), 2)))
-
-
-    const contentString =
-      '<div id="content">' +
-      '<div id="siteNotice">' +
-      "</div>" +
-      '<center>' +
-      '<img src="https://lh3.googleusercontent.com/p/AF1QipNkmwigiRz6uZeQm14ORdxc-0y2FktUK_izG6j5=w600-k" alt="Girl in a jacket" width="240" height="150">' +
-      '<center/>' +
-      '<h1 id="firstHeading" class="firstHeading">TOP ONE</h1>' +
-      '<div id="bodyContent">' +
-      "<p><b>Uluru</b>, also referred to as Ayers Rock <br/>" +
-      "sandstone rock formation in the southern <br/> " +
-      "Northern Territory, central Australia. <br/>" +
-      "south west of the nearest large town, <br/>" +
-      "(280&#160;mi) by road. Kata Tjuta and Uluru <br/>" +
-      "Heritage Site.</p>" +
-      '<p>Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-      "more</a> " +
-      "</div>" +
-      "</div>";
-
     var map = new google.maps.Map(document.getElementById('map'), {
       center: myLatLng,
       zoom: 15,
@@ -147,21 +124,30 @@
       title: 'นี่ใช่ตำแหน่งของคุณหรือไม่',
     });
 
-    for (var i = 0; i < lati.length; ++i) {
-      var po = {
-        lat: lati[i],
-        lng: lngi[i]
-      }
+    for (var i = 0; i < datas.length; ++i) {
 
       var marker = new google.maps.Marker({
         position: {
-          lat: lati[i],
-          lng: lngi[i]
+          lat: parseFloat(datas[i].lat),
+          lng: parseFloat(datas[i].lng)
         },
         icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
         animation: google.maps.Animation.DROP,
         map: map
       });
+      const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<center>' +
+      '<img src="/static/image/'+datas[i].image+'"alt="Girl in a jacket" width="240" height="150">' +
+      '<center/>' +
+      '<h4 id="firstHeading" class="firstHeading">'+datas[i].residentName+'</h4>' +
+      '<div id="bodyContent">' +
+      "<p>"+datas[i].details+"</p>" +
+      
+      "</div>" +
+      "</div>";
 
       attachSecretMessage(my, marker, contentString);
     }
@@ -182,13 +168,7 @@
 </script>
 
 <div id="blog" class="section">
-
-  <input id="residents" value={{residents}} hidden />
-  <!-- <center>
-    <div style="margin-top: 10px;">
-      <h3>Nearby Apartments</h3>
-    </div>
-  </center> -->
+  <input id="residents" value={{datas}} hidden />
   <div class="container">
     <div>
       <center>
@@ -207,7 +187,7 @@
             <div class="single-blog">
               <div class="blog-img">
                 <a href="resident/{{i.residentId}}">
-                  <img src="/static/image/{{i.image}}" alt="">
+                  <img src="/static/image/{{i.image}}" style="max-height: 400px;" alt="">
                 </a>
               </div>
               <h4><a href="resident/{{i.residentId}}">{{i.residentName}}</a></h4>
@@ -220,23 +200,6 @@
             </div>
           </div>
           {% endfor %}
-
-        </div>
-
-        <div class="row">
-
-          <div class="col-md-12">
-            <div class="post-pagination">
-              <a href="#" class="pagination-back pull-left">Back</a>
-              <ul class="pages">
-                <li class="active">1</li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-              </ul>
-              <a href="#" class="pagination-next pull-right">Next</a>
-            </div>
-          </div>
 
         </div>
 
@@ -253,15 +216,14 @@
 
         <div class="widget category-widget">
           <h3>Categories</h3>
-          <a class="category" href="#">Web <span>12</span></a>
-          <a class="category" href="#">Css <span>5</span></a>
-          <a class="category" href="#">Wordpress <span>24</span></a>
-          <a class="category" href="#">Html <span>78</span></a>
-          <a class="category" href="#">Business <span>36</span></a>
+          <a class="category" >Residents <span>12</span></a>
+          <a class="category" >Store <span>5</span></a>
+          <a class="category" >Gas station <span>2</span></a>
+
         </div>
 
         <div class="widget posts-widget">
-          <h3>Recents Posts</h3>
+          <h3>Top Reviews</h3>
 
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
@@ -275,16 +237,16 @@
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post02.jpg" alt="">
             </a>
-            <a href="blog-post.html">Pro eu error molestie deserunt.</a>
-            <p><small>By : John Doe .18 Oct, 2017</small></p>
+            <a href="blog-post.html">------------------------</a>
+            <p><small>----------------</small></p>
           </div>
 
           <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post03.jpg" alt="">
             </a>
-            <a href="blog-post.html">Pro eu error molestie deserunt.</a>
-            <p><small>By : John Doe .18 Oct, 2017</small></p>
+            <a href="blog-post.html">------------------------</a>
+            <p><small>------------------</small></p>
           </div>
 
         </div>
