@@ -44,10 +44,6 @@ def map():
     return render_template('map.html', residents=data)
 
 
-@app.route('/add-residents')
-def add():
-    return render_template('addResidents.html')
-
 # Register Form Class
 class RegisterForm(Form):
     username = StringField('Username', [validators.Length(min=4, max=25)])
@@ -162,8 +158,8 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-@app.route('/addre', methods=['GET', 'POST'])
-def addre():
+@app.route('/add', methods=['GET', 'POST'])
+def add():
     if request.method == 'POST':
         user_id = request.form['addformuser']
         residentName = request.form['residentName']
@@ -198,10 +194,10 @@ def addre():
         image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
         # Create cursor
         cur = connection.cursor()
-        x = cur.execute("SELECT * FROM residents WHERE email = %s",(residentName))
+        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",(residentName))
         if int(x) > 0:
             flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
-        cur.execute("INSERT INTO residents(user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
+        cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
 
          # Commit to DB
         connection.commit()
@@ -211,7 +207,7 @@ def addre():
 
         flash('You are now registered and can log in', 'success')
         # return redirect(url_for('register'))
-    return render_template("addlocation.html")
+    return render_template("add.html")
 
 
 if __name__ == '__main__':
