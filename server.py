@@ -16,10 +16,11 @@ MYSQL_USER          = 'master'
 MYSQL_PASSWORD      = 'love@123456'
 MYSQL_DB            = 'University'
 
+app.config['IMAGE_UPLOAD'] = "static\image"
+app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 
 # connection MySQL
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
-
 
 # Index
 @app.route('/')
@@ -30,24 +31,32 @@ def landing():
 def index():
     return render_template('landing.html')
 
+@app.route('/OTP')
+def OTP():
+    return render_template('OTP.html')
+
 @app.route('/map')
 def map():
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents")
-    residents = cur.fetchall()
+    data = cur.fetchall()
     cur.close()
-    return render_template('map.html', residents=residents)
+    return render_template('map.html', residents=data)
+
 
 # Register Form Class
 class RegisterForm(Form):
     username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
+    email = StringField('Email', [
+        validators.Regexp('@ubu.ac.th', message="กรุณาใช้เมล@ubu.ac.th"),
+    ])
+    fname = StringField('firstName', [validators.Length(min=6, max=50)])
+    lastName = StringField('lastName', [validators.Length(min=6, max=50)])
     password = PasswordField('Password', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords do not match')
+        validators.EqualTo('confirm', message='พาสไม่ตรงกัน')
     ])
     confirm = PasswordField('Confirm Password')
-
 
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -55,20 +64,21 @@ def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         email = form.email.data
-        username = form.username.data
         password = sha256_crypt.encrypt(str(form.password.data))
+        fname = form.fname.data
+        lastName = form.lastNam.data
 
         # Create cursor
         cur = connection.cursor()
 
-        x = cur.execute("SELECT * FROM members WHERE username = %s",(username))
+        x = cur.execute("SELECT * FROM members WHERE email = %s",(email))
 
         if int(x) > 0:
             # flash("That username is already taken, please choose another", 'danger')
             return render_template('login.html', form=form)
 
         # Execute query
-        cur.execute("INSERT INTO members(email, username, password) VALUES(%s, %s, %s)", (email, username, password))
+        cur.execute("INSERT INTO members(email, username, password, firstName, lastName) VALUES(%s, %s, %s, %s, %s)", (email, username, password, fname, lastName))
 
         # Commit to DB
         connection.commit()
@@ -86,28 +96,35 @@ def register():
 def login():
     if request.method == 'POST':
         # Get Form Fields
-        username = request.form['username']
+        email = request.form['username']
         password_candidate = request.form['password']
 
         # Create cursor
         cur = connection.cursor()
 
         # Get user by username
-        result = cur.execute("SELECT * FROM members WHERE username = %s", [username])
+        result = cur.execute("SELECT * FROM members WHERE email = %s", [email])
 
         if result > 0:
             # Get stored hash
             data = cur.fetchone()
+            userId = data['userId']
             password = data['password']
             email = data['email']
-
+            firstName = data['firstName']
+            lastName = data['lastName']
+            permission = data['permission']
 
             # Compare Passwords
             if sha256_crypt.verify(password_candidate, password):
                 # Passed
                 session['logged_in'] = True
-                session['username'] = username
+                session['userId'] = userId
                 session['email'] = email
+                session['firstName'] = firstName
+                session['lastName'] = lastName
+                session['permission'] = permission
+
 
                 flash('You are now logged in', 'success')
                 return redirect(url_for('map'))
@@ -122,64 +139,75 @@ def login():
 
     return redirect(url_for('register'))
 
+# Check if user logged in
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('login'))
+    return wrap
 
 
 # Logout
 @app.route('/logout')
-# @is_logged_in
+@is_logged_in
 def logout():
     session.clear()
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
- 
-# Add Location form User
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    if request.method == 'POST':
+        user_id = request.form['addformuser']
+        residentName = request.form['residentName']
+        lat = request.form['lat']
+        lng = request.form['lng']
+        roomType = request.form['roomType']
+        price = request.form['price']
+        details = request.form['details']
+        phoneConnect = request.form['phoneConnect']
+        OtherConnect = request.form['OtherConnect']
+        image = request.files['image']
+        air = request.form['air']
+        fan = request.form['fan']
+        water_heater = request.form['water_heater']
+        furniture = request.form['furniture']
+        cable_tv = request.form['cable_tv']
+        phone_direct = request.form['phone_direct']
+        internet = request.form['internet']
+        pet = request.form['pet']
+        smoking = request.form['smoking']
+        parking = request.form['parking']
+        elevators = request.form['elevators']
+        security = request.form['security']
+        keycard = request.form['keycard']
+        cctv = request.form['cctv']
+        pool = request.form['pool']
+        fitness = request.form['fitness']
+        laundry = request.form['laundry']
+        hair_salon = request.form['hair_salon']
 
-app.config['IMAGE_UPLOAD'] = "static\image"
-app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
+        filename = secure_filename(image.filename)
+        image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
+        # Create cursor
+        cur = connection.cursor()
+        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",(residentName))
+        if int(x) > 0:
+            flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
+        cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
 
-def allowed_image(filename):
+         # Commit to DB
+        connection.commit()
 
-    if not "." in filename:
-        return False
+        # Close connection
+        cur.close()
 
-    ext = filename.rsplit(".", 1)[1]
-
-    if ext.upper() in app.config['ALLOWED_IMAGE_EXTENTIONS']:
-        return True
-    else:
-        return False
-
-@app.route('/addlocation', methods=["GET", "POST"])
-
-def addlocation():
-
-    if request.method == "POST" :
-
-        if request.files:
-
-            image = request.files["image"]
-
-            if image.filename == "":
-                print("Image must have a filename")
-                return redirect(request.url)
-
-            if not allowed_image(image.filename):
-                print("That image extention is not allow")
-                return redirect(request.url)
-
-            else:
-                filename = secure_filename(image.filename)
-
-                image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
-            print("Image save")
-
-            
-            return redirect(request.url)
-
-    return render_template("addlocation.html")
-
-
+        flash('You are now registered and can log in', 'success')
+        # return redirect(url_for('register'))
+    return render_template("add.html")
 
 
 if __name__ == '__main__':
