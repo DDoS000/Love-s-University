@@ -52,7 +52,14 @@ def landing():
     all = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas, all=all)
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews ORDER BY rating DESC")
+    top = cur.fetchall()
+    cur.close()
+    
+
+    return render_template('map.html', datas=datas, all=all, top=top)
 
 @app.route('/index')
 def index():
@@ -68,7 +75,12 @@ def index():
     all = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas, all=all)
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews ORDER BY rating DESC")
+    top = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all, top=top)
 
 @app.route('/admin', methods=['GET', 'POST'])
 def Addmin():
