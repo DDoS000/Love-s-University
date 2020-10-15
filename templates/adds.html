@@ -1,16 +1,138 @@
 {% extends 'layout.html' %}
 {% block style %}
+<title>Add Residdent</title>
 
+<link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+
+<!-- Bootstrap core CSS -->
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<!-- <link href="../static/css/form-validation.css" rel="stylesheet"> -->
+<style>
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            myLatLng = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+
+    function initMap() {
+        document.getElementById('lat').value = myLatLng.lat;
+        document.getElementById('lng').value = myLatLng.lng;
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15,
+            styles: [
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                }
+            ]
+
+        });
+
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'นี่ใช่ตำแหน่งร้านของคุณหรือไม่',
+            animation: google.maps.Animation.DROP,
+            draggable: true
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function (marker) {
+            var latLng = marker.latLng;
+            document.getElementById('lat').value = latLng.lat();
+            document.getElementById('lng').value = latLng.lng();
+            var newL = new google.maps.LatLng(document.getElementById('lat').value = latLng.lat(), document.getElementById('lng').value = latLng.lng());
+            map.panTo(newL);
+
+        });
+
+    }
+
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
+    defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+
 <body class="bg-light" style="margin-top: 50px;">
+
     <div class="container">
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="../static/icons/add.svg" alt="" width="96" height="96">
             <div class="row">
                 <h2>เพิ่มข้อมูล</h2>
-                <h2>หอพัก</h2>
             </div>
 
         </div>
@@ -23,39 +145,21 @@
 
                 <div class="w3-card" id="map"></div>
             </div>
-            <!-- add resident -->
+            {% if types == 'store'  %}
+            <!-- add store -->
             <div class="col-md-8 order-md-1">
-                <h4 class="mb-3">เพิ่มข้อมูล</h4>
-                <form action="/add" method="POST" enctype="multipart/form-data">
+                <h4 class="mb-3">ร้านค้า</h4>
+                <form action="/insert_location" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <input type="hidden" name="addformuser" value="{{ session.userId }}">
+                        <input type="hidden" name="types" value="{{ types }}">
                         <div class="col-md-6 mb-3">
                             <label for="residentName">ชื่อ</label>
-                            <input type="text" class="form-control" name="residentName" placeholder="" value="">
+                            <input type="text" class="form-control" name="name" placeholder="" value="">
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="roomType">ประเภทของห้อง</label>
-                            <input type="text" class="form-control" name="roomType" placeholder="" value="">
-                        </div>
+
                     </div>
-                    <div class="mb-3">
-                        <label for="price">ราคา (500-1000)</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">฿</span>
-                            </div>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="" value="" required>
-                            <div class="invalid-feedback" style="width: 100%;">
-                                กรุณากรอกเป็นตัวเลข
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phoneConnect">เบอร์โทร</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="phoneConnect" placeholder="">
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="lat">พิกัด lat</label>
@@ -63,128 +167,21 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="lng">พิกัด lng</label>
-                            <input type="text" class="form-control" name="lng" id="lat" placeholder="" value="">
-                        </div>
-                    </div>
-                    <!-- check box -->
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="air" value="Yes"> แอร์
-                            </label>
-                            <input type="hidden" name="air" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="fan" value="Yes"> พัดลม
-                            </label>
-                            <input type="hidden" name="fan" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="water_heater" value="Yes">
-                                เครื่องทำน้ำอุ่น </label>
-                            <input type="hidden" name="water_heater" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="internet" value="Yes">
-                                อินเตอร์เน็ต </label>
-                            <input type="hidden" name="internet" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="furniture" value="Yes">
-                                เฟอร์นิเจอร์ </label>
-                            <input type="hidden" name="furniture" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="cable_tv" value="Yes"> ทีวี
-                            </label>
-                            <input type="hidden" name="cable_tv" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="phone_direct" value="Yes">
-                                มือถือสายตรง </label>
-                            <input type="hidden" name="phone_direct" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="pet" value="Yes">
-                                สัตว์เลี้ยง </label>
-                            <input type="hidden" name="pet" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="elevators" value="Yes">
-                                ลิฟต์ </label>
-                            <input type="hidden" name="elevators" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="parking" value="Yes">
-                                ที่จอดรถ </label>
-                            <input type="hidden" name="parking" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="smoking" value="Yes">
-                                สูบบุหรี่ได้ </label>
-                            <input type="hidden" name="smoking" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="security" value="Yes"> รปภ.
-                            </label>
-                            <input type="hidden" name="security" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="keycard" value="Yes">
-                                คีย์การ์ด </label>
-                            <input type="hidden" name="keycard" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="cctv" value="Yes">
-                                กล้องวงจรปิด </label>
-                            <input type="hidden" name="cctv" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="pool" value="Yes">
-                                สระว่ายน้ำ </label>
-                            <input type="hidden" name="pool" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="fitness" value="Yes"> ฟิตเนส
-                            </label>
-                            <input type="hidden" name="fitness" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="laundry" value="Yes">
-                                เครื่องซักผ้า </label>
-                            <input type="hidden" name="laundry" value="No">
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                            <label class="checkbox-inline"><input type="checkbox" name="hair_salon" value="Yes">
-                                ร้านตัดผม </label>
-                            <input type="hidden" name="hair_salon" value="No">
+                            <input type="text" class="form-control" name="lng" id="lng" placeholder="">
                         </div>
                     </div>
 
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="details">ข้อมูลเพิ่มเติม</label>
-                            <input type="text" class="form-control" name="details" placeholder="" value="">
-                            <small class="text-muted">กรอกข้อมูลเพิ่มเติมนอกจากที่กำหนดได้ที่นี่</small>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="OtherConnect">ช่องทางติดต่ออื่นๆ</label>
-                            <input type="text" class="form-control" name="OtherConnect" placeholder="" value="">
-                        </div>
-                    </div>
-
-                    <!-- Upload Image -->
                     <div class="row">
                         <div class="col-12">
-                            <label for="img">Select image:</label>
-                            <input type="file" id="image" name="image"
-                                ccept="image/x-png,image/gif,image/jpeg,image/jpg"><br><br>
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
                                 submit</button>
                         </div>
                     </div>
+
                 </form>
             </div>
+            {% endif %}
         </div>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -198,4 +195,14 @@
     </div>
 
 </body>
+
+</html>
+
+<div id='preloader'>
+    <div class='preloader'></div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script>
 {% endblock %}
