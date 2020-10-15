@@ -42,11 +42,29 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 # Index
 @app.route('/')
 def landing():
-    # msg = Message(sender="gm270624@gmail.com" ,recipients = ["chimomonono@gmail.com"])
-    # msg.subject = "Hello world"
-    # msg.body = "Hello Flask message sent from Flask-Mail"
-    # mail.send(msg)
-    return render_template('landing.html')
+     
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM residents")
+    datas = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM stores")
+    stores = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM gas_stations")
+    gas = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM hospitals")
+    hospitals = cur.fetchall()
+    cur.close()
+
+
+    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
 
 @app.route('/index')
 def index():
@@ -74,40 +92,18 @@ def OTP():
         else :
             return render_template('OTP',email=request.form['email'])
 
-        
-
-
     return render_template('OTP.html')
 
-@app.route('/map')
+@app.route('/about-team')
 def map():
     
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM residents")
-    datas = cur.fetchall()
-    cur.close()
+    return render_template('landing.html')
 
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM stores")
-    stores = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM gas_stations")
-    gas = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM hospitals")
-    hospitals = cur.fetchall()
-    cur.close()
-
-
-    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
-
-
-@app.route('/resident')
+@app.route('/resident', methods=['GET', 'POST'])
 def select():
+    # if request.method == 'POST':
+    #     cur = connection.cursor()
+
     return render_template('resident.html')
 
 @app.route('/select')
