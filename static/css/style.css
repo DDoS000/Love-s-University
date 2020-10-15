@@ -1201,12 +1201,19 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 /*------------------------------------*\
 	Star Comment
 \*------------------------------------*/
-  /* .container .post{
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+  .container .post{
 	display: none;
   }
   .container .text{
 	font-size: 25px;
-	color: #666;
+	color: rgb(0, 0, 0);
 	font-weight: 500;
   }
   .container .edit{
@@ -1214,7 +1221,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	right: 10px;
 	top: 5px;
 	font-size: 16px;
-	color: #666;
+	color: rgb(0, 0, 0);
 	font-weight: 500;
 	cursor: pointer;
   }
@@ -1226,7 +1233,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
   }
   .star-widget label{
 	font-size: 40px;
-	color: #444;
+	color: rgb(0, 0, 0);
 	padding: 10px;
 	float: right;
 	transition: all 0.2s ease;
@@ -1243,19 +1250,19 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	text-shadow: 0 0 20px #952;
   }
   #rate-1:checked ~ form header:before{
-	content: "I just hate it 😠";
+	content: "😠";
   }
   #rate-2:checked ~ form header:before{
-	content: "I don't like it 😒";
+	content: "😒";
   }
   #rate-3:checked ~ form header:before{
-	content: "It is awesome 😄";
+	content: "😄";
   }
   #rate-4:checked ~ form header:before{
-	content: "I just like it 😎";
+	content: "😎";
   }
   #rate-5:checked ~ form header:before{
-	content: "I just love it 😍";
+	content: "😍";
   }
   .container form{
 	display: none;
@@ -1281,9 +1288,9 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	height: 100%;
 	width: 100%;
 	outline: none;
-	color: #eee;
+	color: rgb(0, 0, 0);
 	border: 1px solid #333;
-	background: #222;
+	background: rgb(255, 255, 255);
 	padding: 10px;
 	font-size: 17px;
 	resize: none;
@@ -1296,13 +1303,13 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	width: 100%;
 	margin: 15px 0;
   }
-  form .btn button{
+  /* form .btn button{
 	height: 100%;
 	width: 100%;
-	border: 1px solid #444;
-	outline: none;
-	background: #222;
-	color: #999;
+	outline: auto;
+	background: #0066ff;
+	font-family: 'Prompt', sans-serif;
+	font-family: 'promt';
 	font-size: 17px;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -1310,7 +1317,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	transition: all 0.3s ease;
   }
   form .btn button:hover{
-	background: #1b1b1b;
+	background: #005ce6;
   } */
 /*------------------------------------*\
 	Responsive
