@@ -46,7 +46,7 @@ def map():
     return render_template('map.html', datas=datas)
 
 # @app.route('/add-residents')
-# def add():
+# def add1():
 #     return render_template('addResidents.html')
 
 @app.route('/resident')
