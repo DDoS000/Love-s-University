@@ -63,11 +63,51 @@ def index():
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all)
 
 @app.route('/admin')
 def Addmin():
-    return render_template('Admin.html')
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM members")
+    members = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM residents")
+    residents = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    total_residents = cur.execute("SELECT * FROM residents")
+    cur.close()
+
+    cur = connection.cursor()
+    total_comments = cur.execute("SELECT * FROM reviews")
+    cur.close()
+
+    cur = connection.cursor()
+    total_users = cur.execute("SELECT * FROM members")
+    cur.close()
+
+
+
+    return render_template('Admin.html',members=members, residents=residents, all=all, reviews=reviews,total_residents=total_residents, total_comments=total_comments ,total_users=total_users)
 
 @app.route('/OTP', methods=['GET', 'POST'])
 def OTP():
@@ -158,10 +198,10 @@ def register():
             flash('Send OTP Success', 'success')
 
             
-            msg = f"From: worawit.pa.61@ubu.ac.th\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
+            msg = f"From: under.university.61@gmail.com\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
             server.starttls()
-            server.login('worawit.pa.61@ubu.ac.th', 'Vryi4696')
-            server.sendmail('worawit.pa.61@ubu.ac.th', form.email.data, msg)
+            server.login('under.university.61@gmail.com', 'love@123456')
+            server.sendmail('under.university.61@gmail.com', form.email.data, msg)
             return render_template('OTP.html',email=form.email.data)
         
     return render_template('login.html', form=form)
