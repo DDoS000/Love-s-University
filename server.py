@@ -240,29 +240,30 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-@app.route('/adds/<string:type>', methods=['GET', 'POST'])
-def adds(type):
-    render_template("adds.html",type=type)
+@app.route('/adds/<string:types>', methods=['GET', 'POST'])
+def adds(types):
+    return render_template("adds.html",types=types)
 
 @app.route('/insert_location', methods=['POST'])
 def insert_location():
     if request.method == 'POST':
         user_id = request.form['addformuser']
-        names = request.form['names']
+        names = request.form['name']
         lat = request.form['lat']
         lng = request.form['lng']
         types = request.form['types']
 
         cur = connection.cursor()
-        x = cur.execute("SELECT * FROM all_location WHERE names = %s",[names])
+        x = cur.execute("SELECT * FROM all_location WHERE name = %s",[names])
         if int(x) > 0:
             flash("มีคนได้เพิ่มสถานที่นี้ไปแล้วพักนี้ไปแล้ว", 'danger')
             cur.close()
-        cur.execute("INSERT INTO all_location(name, lat, lng, type) VALUES(%s, %s, %s, %s)", (names, lat, lng, types))
+        cur.execute("INSERT INTO all_location(addformuser ,name, lat, lng, types) VALUES(%s, %s, %s, %s, %s)", (user_id ,names, lat, lng, types))
         connection.commit()
         cur.close()
+        flash("ได้ทําการเพิ่มข้อมูลเรียบร้อยแล้ว", 'danger')
         
-    return redirect(url_for('resident'))
+    return redirect(url_for('index'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
