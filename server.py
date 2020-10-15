@@ -58,7 +58,6 @@ def landing():
     top = cur.fetchall()
     cur.close()
     
-
     return render_template('map.html', datas=datas, all=all, top=top)
 
 @app.route('/index')
