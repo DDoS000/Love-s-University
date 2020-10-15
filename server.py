@@ -48,23 +48,7 @@ def landing():
     datas = cur.fetchall()
     cur.close()
 
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM stores")
-    stores = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM gas_stations")
-    gas = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM hospitals")
-    hospitals = cur.fetchall()
-    cur.close()
-
-
-    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
+    return render_template('map.html', datas=datas)
 
 @app.route('/index')
 def index():
@@ -320,7 +304,7 @@ def resident(id):
     result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
     datas = cur.fetchall()
     cur.close()
-    return render_template("resident.html",datas=datas)
+    return render_template("resident.html",datas=datas ,id=id)
 
 
 if __name__ == '__main__':
