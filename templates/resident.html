@@ -124,7 +124,8 @@
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <a href="/"><button>Back</button></a>
+        
+        <a href="/"><button class="btn btn-primary btn-block" style="width:100px">Back</button></a>
         <div class="row">
             <!-- contact form -->
             <div class="col-md-6 ">
@@ -326,6 +327,8 @@
                         <div class="star-widget">
                             <form action="/resident/{{id}}" method="POST">
                                 <div class="row">
+                                    <input type="hidden" id="residentId" name="residentId" value="{{id}}">
+                                    <input type="hidden" id="userId" name="userId" value="{{session.userId}}">
                                     <h4 style="margin-left: 20px;">rating: </h4>
                                     <div style="margin-left: 20px;"></div>
                                     <select name="rating" id="rating">
@@ -339,9 +342,15 @@
                                 <div class="textarea">
                                     <textarea cols="30" id="comments" name="comments"></textarea>
                                 </div>
-                                <button class="btn btn-primary btn-lg btn-block" style="margin-bottom: 40px;"
+                                <button class="btn btn-primary btn-block" style="margin-bottom: 40px;"
                                     type="submit">Post</button>
                             </form>
+
+                            {% for i in reviews%}
+                            {% if i.residentId == id%}
+                            <p>#0{{i.userId}}: {{i.comments}}</p><br>
+                            {%endif%}
+                            {% endfor %}
                         </div>
                     </div>
                 </ul>

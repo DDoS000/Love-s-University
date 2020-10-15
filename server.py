@@ -48,7 +48,12 @@ def landing():
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all)
 
 @app.route('/index')
 def index():
@@ -58,11 +63,51 @@ def index():
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all)
 
 @app.route('/admin')
 def Addmin():
-    return render_template('Admin.html')
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM members")
+    members = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM residents")
+    residents = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    total_residents = cur.execute("SELECT * FROM residents")
+    cur.close()
+
+    cur = connection.cursor()
+    total_comments = cur.execute("SELECT * FROM reviews")
+    cur.close()
+
+    cur = connection.cursor()
+    total_users = cur.execute("SELECT * FROM members")
+    cur.close()
+
+
+
+    return render_template('Admin.html',members=members, residents=residents, all=all, reviews=reviews,total_residents=total_residents, total_comments=total_comments ,total_users=total_users)
 
 @app.route('/OTP', methods=['GET', 'POST'])
 def OTP():
@@ -88,13 +133,11 @@ def OTP():
 def about_team():
     return render_template('landing.html')
 
-@app.route('/resident', methods=['GET', 'POST'])
-def select():
-    # if request.method == 'POST':
-    #     cur = connection.cursor()
+# @app.route('/resident', methods=['GET', 'POST'])
+# def select():
+    
 
-    return render_template('resident.html')
-
+#     return render_template('resident.html',id=request.form['userId'])
 @app.route('/select')
 def selectType():
     return render_template('select.html')
@@ -155,10 +198,10 @@ def register():
             flash('Send OTP Success', 'success')
 
             
-            msg = f"From: worawit.pa.61@ubu.ac.th\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
+            msg = f"From: under.university.61@gmail.com\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
             server.starttls()
-            server.login('worawit.pa.61@ubu.ac.th', 'Vryi4696')
-            server.sendmail('worawit.pa.61@ubu.ac.th', form.email.data, msg)
+            server.login('under.university.61@gmail.com', 'love@123456')
+            server.sendmail('under.university.61@gmail.com', form.email.data, msg)
             return render_template('OTP.html',email=form.email.data)
         
     return render_template('login.html', form=form)
@@ -304,13 +347,28 @@ def add():
 
     return render_template("add.html")
 
-@app.route('/resident/<string:id>',methods=['GET'])
+@app.route('/resident/<string:id>',methods=['GET', 'POST'])
 def resident(id):
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
     datas = cur.fetchall()
     cur.close()
-    return render_template("resident.html",datas=datas ,id=id)
+
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    if request.method == 'POST':
+        print(request.form)
+        cur = connection.cursor()
+        cur.execute("INSERT INTO reviews(comments, rating, userId, residentId) VALUES(%s, %s, %s, %s)", (request.form['comments'], request.form['rating'], request.form['userId'], request.form['residentId']))
+        connection.commit()
+        cur.close()
+        
+
+
+    return render_template("resident.html",datas=datas ,id=id,reviews=reviews)
 
 
 @app.route('/delete/<string:path>/<string:id_delete>',methods=['GET'])
