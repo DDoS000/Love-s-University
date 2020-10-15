@@ -89,6 +89,10 @@ def map():
     return render_template('map.html', datas=datas)
 
 
+@app.route('/resident')
+def select():
+    return render_template('resident.html')
+
 # Register Form Class
 class RegisterForm(Form):
     email = StringField('email', [
