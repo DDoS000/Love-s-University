@@ -52,6 +52,10 @@ def landing():
 def index():
     return render_template('landing.html')
 
+@app.route('/admin')
+def Addmin():
+    return render_template('Admin.html')
+
 @app.route('/OTP', methods=['GET', 'POST'])
 def OTP():
     if request.method == 'POST':
@@ -77,20 +81,12 @@ def OTP():
 
 @app.route('/map')
 def map():
+    
     cur = connection.cursor()
-    result = cur.execute("SELECT * FROM residents")
-    print(result)
+    cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
     return render_template('map.html', datas=datas)
-
-# @app.route('/add-residents')
-# def add():
-#     return render_template('addResidents.html')
-
-@app.route('/resident')
-def select():
-    return render_template('resident.html')
 
 
 # Register Form Class
@@ -260,7 +256,7 @@ def add():
         image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
         # Create cursor
         cur = connection.cursor()
-        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",(residentName))
+        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",[residentName])
         if int(x) > 0:
             flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
         cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
