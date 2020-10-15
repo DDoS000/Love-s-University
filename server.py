@@ -194,7 +194,7 @@ def add():
         image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
         # Create cursor
         cur = connection.cursor()
-        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",(residentName))
+        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",[residentName])
         if int(x) > 0:
             flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
         cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
