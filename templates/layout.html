@@ -12,9 +12,8 @@
 
 <body>
   {% include 'includes/navbar.html' %}
-  {% include 'includes/_messages.html' %}
-
   <div>
+    {% include 'includes/_messages.html' %}
     {% block body %}{% endblock %}
   </div>
 

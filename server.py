@@ -48,7 +48,12 @@ def landing():
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all)
 
 @app.route('/index')
 def index():
@@ -79,17 +84,14 @@ def OTP():
     return render_template('OTP.html')
 
 @app.route('/about-team')
-def map():
-    
+def about_team():
     return render_template('landing.html')
 
-@app.route('/resident', methods=['GET', 'POST'])
-def select():
-    # if request.method == 'POST':
-    #     cur = connection.cursor()
+# @app.route('/resident', methods=['GET', 'POST'])
+# def select():
+    
 
-    return render_template('resident.html')
-
+#     return render_template('resident.html',id=request.form['userId'])
 @app.route('/select')
 def selectType():
     return render_template('select.html')
@@ -225,14 +227,34 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-# @app.route('/add/<string:type>')
-# def add(type):
-#     return
+@app.route('/adds/<string:types>', methods=['GET', 'POST'])
+def adds(types):
+    return render_template("adds.html",types=types)
+
+@app.route('/insert_location', methods=['POST'])
+def insert_location():
+    if request.method == 'POST':
+        user_id = request.form['addformuser']
+        names = request.form['name']
+        lat = request.form['lat']
+        lng = request.form['lng']
+        types = request.form['types']
+
+        cur = connection.cursor()
+        x = cur.execute("SELECT * FROM all_location WHERE name = %s",[names])
+        if int(x) > 0:
+            flash("มีคนได้เพิ่มสถานที่นี้ไปแล้วพักนี้ไปแล้ว", 'danger')
+            cur.close()
+        cur.execute("INSERT INTO all_location(addformuser ,name, lat, lng, types) VALUES(%s, %s, %s, %s, %s)", (user_id ,names, lat, lng, types))
+        connection.commit()
+        cur.close()
+        flash("ได้ทําการเพิ่มข้อมูลเรียบร้อยแล้ว", 'danger')
+        
+    return redirect(url_for('index'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        print("POST")
         user_id = request.form['addformuser']
         residentName = request.form['residentName']
         lat = request.form['lat']
@@ -276,16 +298,31 @@ def add():
 
         connection.commit()
         cur.close()
-   
+
     return render_template("add.html")
 
-@app.route('/resident/<string:id>',methods=['GET'])
+@app.route('/resident/<string:id>',methods=['GET', 'POST'])
 def resident(id):
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
     datas = cur.fetchall()
     cur.close()
-    return render_template("resident.html",datas=datas ,id=id)
+
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    if request.method == 'POST':
+        print(request.form)
+        cur = connection.cursor()
+        cur.execute("INSERT INTO reviews(comments, rating, userId, residentId) VALUES(%s, %s, %s, %s)", (request.form['comments'], request.form['rating'], request.form['userId'], request.form['residentId']))
+        connection.commit()
+        cur.close()
+        
+
+
+    return render_template("resident.html",datas=datas ,id=id,reviews=reviews)
 
 
 if __name__ == '__main__':

@@ -52,6 +52,9 @@
     var datas = {{ datas| tojson
   }};
 
+  var all = {{ all| tojson
+  }};
+
 
 
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -151,69 +154,66 @@
     attachSecretMessage(my, marker, contentString);
   }
 
-  // for (var i = 0; i < stores.length; ++i) {
+  for (var i = 0; i < all.length; ++i) {
+    if (all[i].types == 'store') {
 
-  //   var marker = new google.maps.Marker({
-  //     position: {
-  //       lat: parseFloat(stores[i].lat),
-  //       lng: parseFloat(stores[i].lng)
-  //     },
-  //     icon: "https://img.icons8.com/color/48/000000/shop.png",
-  //     animation: google.maps.Animation.DROP,
-  //     map: map
-  //   });
-  //   const contentString =
-  //     '<div id="content">' +
-  //     '<div id="siteNotice">' +
-  //     "</div>" +
-  //     '<h4 id="firstHeading" class="firstHeading">' + stores[i].name + '</h4>' +
-  //     "</div>";
+      var marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(all[i].lat),
+          lng: parseFloat(all[i].lng)
+        },
+        icon: "https://img.icons8.com/color/48/000000/shop.png",
+        animation: google.maps.Animation.DROP,
+        map: map
+      });
+      const contentString =
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        "</div>" +
+        '<h4 id="firstHeading" class="firstHeading">' + all[i].name + '</h4>' +
+        "</div>";
 
-  //   attachSecretMessage(my, marker, contentString);
-  // }
+      attachSecretMessage(my, marker, contentString);
+    } else if (all[i].types == 'gas') {
+      var marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(all[i].lat),
+          lng: parseFloat(all[i].lng)
+        },
+        icon: "https://img.icons8.com/color/48/000000/gas-station.png",
+        animation: google.maps.Animation.DROP,
+        map: map
+      });
+      const contentString =
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        "</div>" +
+        '<h4 id="firstHeading" class="firstHeading">' + all[i].name + '</h4>' +
+        "</div>";
 
-  // for (var i = 0; i < gas.length; ++i) {
+      attachSecretMessage(my, marker, contentString);
+    } else {
+      var marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(all[i].lat),
+          lng: parseFloat(all[i].lng)
+        },
+        icon: "https://img.icons8.com/color/48/000000/hospital.png",
+        animation: google.maps.Animation.DROP,
+        map: map
+      });
+      const contentString =
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        "</div>" +
+        '<h4 id="firstHeading" class="firstHeading">' + all[i].name + '</h4>' +
+        "</div>";
 
-  //   var marker = new google.maps.Marker({
-  //     position: {
-  //       lat: parseFloat(gas[i].lat),
-  //       lng: parseFloat(gas[i].lng)
-  //     },
-  //     icon: "https://img.icons8.com/color/48/000000/gas-station.png",
-  //     animation: google.maps.Animation.DROP,
-  //     map: map
-  //   });
-  //   const contentString =
-  //     '<div id="content">' +
-  //     '<div id="siteNotice">' +
-  //     "</div>" +
-  //     '<h4 id="firstHeading" class="firstHeading">' + gas[i].name + '</h4>' +
-  //     "</div>";
+      attachSecretMessage(my, marker, contentString);
+    }
+  }
 
-  //   attachSecretMessage(my, marker, contentString);
-  // }
-
-  // for (var i = 0; i < hospitals.length; ++i) {
-
-  //   var marker = new google.maps.Marker({
-  //     position: {
-  //       lat: parseFloat(hospitals[i].lat),
-  //       lng: parseFloat(hospitals[i].lng)
-  //     },
-  //     icon: "https://img.icons8.com/color/48/000000/hospital.png",
-  //     animation: google.maps.Animation.DROP,
-  //     map: map
-  //   });
-  //   const contentString =
-  //     '<div id="content">' +
-  //     '<div id="siteNotice">' +
-  //     "</div>" +
-  //     '<h4 id="firstHeading" class="firstHeading">' + hospitals[i].name + '</h4>' +
-  //     "</div>";
-
-  //   attachSecretMessage(my, marker, contentString);
-  // }
-
+ 
   }
   function attachSecretMessage(my, marker, contentString) {
 
@@ -256,9 +256,7 @@
               <h4><a href="resident/{{i.residentId}}">{{i.residentName}}</a></h4>
               <div class="blog-meta">
                 <span class="blog-meta-author">Price: <a href="resident/{{i.residentId}}">{{i.price}}</a></span>
-                <div class="pull-right">
-                  <span>18 Oct, 2017</span>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -286,9 +284,9 @@
         </div>
 
         <div class="widget posts-widget">
-          <h3>Recents Posts</h3>
+          <h3>Top Reviews</h3>
 
-          <div class="single-post">
+          <!-- <div class="single-post">
             <a class="single-post-img" href="blog-post.html">
               <img src="/static/image/img/post01.jpg" alt="">
             </a>
@@ -310,7 +308,7 @@
             </a>
             <a href="blog-post.html">...</a>
             <p><small>...</small></p>
-          </div>
+          </div> -->
 
         </div>
 
