@@ -12,6 +12,7 @@
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     #map {
         height: 50%;
@@ -320,29 +321,27 @@
                         <li>
                             <h4>Comment</h4>
                         </li>
-                        <li><input></li>
                     </div>
-                    <div style="margin-left: 20px; margin-top: 20px;">
-                        <li>
-                            <h4>rating</h4>
-                        </li>
-                        <form action="/action_page.php">
-                            <select name="rating" id="rating">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <input type="submit" value="Submit">
-                        </form>
-
-                    </div>
-
-                    <div style="margin-left: 20px; margin-bottom: 20px;">
-                        <li >
-                            <h4>Other comments</h4>
-                        </li>
+                    <div class="container">
+                        <div class="star-widget">
+                            <input type="radio" name="rating" id="rate-5">
+                            <label for="rate-5" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-4">
+                            <label for="rate-4" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-3">
+                            <label for="rate-3" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-2">
+                            <label for="rate-2" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-1">
+                            <label for="rate-1" class="fa fa-star"></label>
+                            <form action="#">
+                                <header></header>
+                                <div class="textarea" >
+                                    <textarea cols="30" id="comments" name="comments"></textarea>
+                                </div>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Post</button>
+                            </form>
+                        </div>
                     </div>
                 </ul>
 
