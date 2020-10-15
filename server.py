@@ -86,7 +86,24 @@ def map():
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
-    return render_template('map.html', datas=datas)
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM stores")
+    stores = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM gas_stations")
+    gas = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM hospitals")
+    hospitals = cur.fetchall()
+    cur.close()
+
+
+    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
 
 
 @app.route('/resident')
@@ -231,7 +248,7 @@ def logout():
 @app.route('/add/<string:type>', methods=['GET', 'POST'])
 def add(type):
     if request.method == 'POST':
-        if type == 'resident':
+        if type == "resident":
             user_id = request.form['addformuser']
             residentName = request.form['residentName']
             lat = request.form['lat']
@@ -274,7 +291,58 @@ def add(type):
 
             cur.close()
 
-            flash('You are now registered and can log in', 'success')
+            flash('resident saved', 'success')
+        elif type == "store":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM stores WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO stores(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('store has saved', 'success')
+        
+        elif type == "gas":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM gas_stations WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO gas_stations(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('gas station has saved', 'success')
+        
+        elif type == "hospital":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM hospitals WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO hospitals(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('hospital station has saved', 'success')
+
             
     return render_template("add.html",type=type)
 

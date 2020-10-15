@@ -51,7 +51,17 @@
 
     var datas = {{ datas| tojson
   }};
-  console.log({ datas });
+
+  var stores = {{ stores| tojson
+  }};
+
+  var gas = {{ gas| tojson
+  }};
+
+  var hospitals = {{ datas| tojson
+  }};
+
+
 
   var map = new google.maps.Map(document.getElementById('map'), {
     center: myLatLng,
@@ -149,6 +159,70 @@
 
     attachSecretMessage(my, marker, contentString);
   }
+
+  for (var i = 0; i < stores.length; ++i) {
+
+    var marker = new google.maps.Marker({
+      position: {
+        lat: parseFloat(stores[i].lat),
+        lng: parseFloat(stores[i].lng)
+      },
+      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      animation: google.maps.Animation.DROP,
+      map: map
+    });
+    const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<h4 id="firstHeading" class="firstHeading">' + stores[i].name + '</h4>' +
+      "</div>";
+
+    attachSecretMessage(my, marker, contentString);
+  }
+
+  for (var i = 0; i < gas.length; ++i) {
+
+    var marker = new google.maps.Marker({
+      position: {
+        lat: parseFloat(gas[i].lat),
+        lng: parseFloat(gas[i].lng)
+      },
+      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      animation: google.maps.Animation.DROP,
+      map: map
+    });
+    const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<h4 id="firstHeading" class="firstHeading">' + gas[i].name + '</h4>' +
+      "</div>";
+
+    attachSecretMessage(my, marker, contentString);
+  }
+
+  for (var i = 0; i < hospitals.length; ++i) {
+
+    var marker = new google.maps.Marker({
+      position: {
+        lat: parseFloat(hospitals[i].lat),
+        lng: parseFloat(hospitals[i].lng)
+      },
+      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      animation: google.maps.Animation.DROP,
+      map: map
+    });
+    const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<h4 id="firstHeading" class="firstHeading">' + hospitals[i].name + '</h4>' +
+      "</div>";
+
+    attachSecretMessage(my, marker, contentString);
+  }
+
   }
   function attachSecretMessage(my, marker, contentString) {
 

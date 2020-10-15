@@ -11,8 +11,8 @@
 <!-- <link href="../static/css/form-validation.css" rel="stylesheet"> -->
 <style>
     #map {
-        height: 50%;
-        width: 75%;
+        height: 500px;
+        width: 100%;
     }
 </style>
 {% endblock %}
@@ -162,14 +162,17 @@
                         <div class="row">
                             <input type="hidden" name="addformuser" value="1">
                             <div class="col-md-6 mb-3">
-                                <label for="residentName">ชื่อหอพัก</label>
+                                <label for="residentName">ชื่อ</label>
                                 <input type="text" class="form-control" id="residentName" placeholder="" value="">
                             </div>
+                            {%if type == "resident" %}
                             <div class="col-md-6 mb-3">
                                 <label for="roomType">ประเภทของห้อง</label>
                                 <input type="text" class="form-control" id="roomType" placeholder="" value="">
                             </div>
+                            {%endif%}
                         </div>
+                        {%if type == "resident" %}
                         <div class="mb-3">
                             <label for="price">ราคา</label>
                             <div class="input-group">
@@ -188,6 +191,7 @@
                                 <input type="text" class="form-control" id="phoneConnect" placeholder="">
                             </div>
                         </div>
+                        {%endif%}
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="lat">พิกัด lat</label>
@@ -292,9 +296,7 @@
                                 <input type="hidden" name="hair_salon" value="No">
                             </div>
                         </div>
-                        {% else %}
-                        <div></div>
-                        {%endif%}
+
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -318,6 +320,14 @@
                                     submit</button>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
+                                    submit</button>
+                            </div>
+                        </div>
+                        {%endif%}
                     </form>
                 </form>
             </div>
