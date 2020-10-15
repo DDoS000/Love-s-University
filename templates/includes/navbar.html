@@ -15,10 +15,24 @@
       <!-- Navigation -->
       <nav id="nav">
         <ul class="main-menu nav navbar-nav navbar-right">
+          {% if session.logged_in and session.permission == 'M' %}
+          <div class="row" style="position: absolute; right: 100px;">
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/login" style="font-family: 'Prompt';">User {{session.firstName}} </a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign Out</a></li>
+          </div>
+          {% elif session.logged_in and session.permission == 'A' %}
+          <div class="row" style="position: absolute; right: 100px;">
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Admin {{session.firstName}} </a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign Out</a></li>
+          </div>
+          {% else %}
           <div class="row" style="position: absolute; right: 100px;">
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/login" style="font-family: 'Prompt';">Sign In</a></li>
           </div>
+          {% endif %}
         </ul>
       </nav>
       <!-- /Navigation -->

@@ -6,9 +6,14 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from functools import wraps
 from werkzeug.utils import secure_filename
 import os
-
+# from flask_mail import Mail, Message
+import smtplib
+from random import randint
 
 app = Flask(__name__)
+
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 587
 
 # Config MySQL
 MYSQL_HOST          = '128.199.113.206'
@@ -19,30 +24,74 @@ MYSQL_DB            = 'University'
 app.config['IMAGE_UPLOAD'] = "static\image"
 app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 
+# mail_settings = {
+#     "MAIL_SERVER": 'smtp.gmail.com',
+#     "MAIL_PORT": 587,
+#     "MAIL_USE_TLS": False,
+#     "MAIL_USE_SSL": False,
+#     "MAIL_USERNAME": 'gm270624@gmail.com',
+#     "MAIL_PASSWORD": '045270624'
+# }
+# app.config.update(mail_settings)
+# mail = Mail(app)
+
 # connection MySQL
+
 connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB , cursorclass=pymysql.cursors.DictCursor)
 
 # Index
 @app.route('/')
 def landing():
+    # msg = Message(sender="gm270624@gmail.com" ,recipients = ["chimomonono@gmail.com"])
+    # msg.subject = "Hello world"
+    # msg.body = "Hello Flask message sent from Flask-Mail"
+    # mail.send(msg)
     return render_template('landing.html')
 
 @app.route('/index')
 def index():
     return render_template('landing.html')
 
+@app.route('/admin')
+def Addmin():
+    return render_template('Admin.html')
 
-@app.route('/OTP')
+@app.route('/OTP', methods=['GET', 'POST'])
 def OTP():
+    if request.method == 'POST':
+        cur = connection.cursor()
+
+        checkOTP = cur.execute("SELECT * FROM otp WHERE email = %s AND OTP = %s",(request.form['email'], request.form['OTP']))
+        print(checkOTP)
+        if int(checkOTP) > 0:
+            verify = cur.execute("UPDATE members SET verify = %s WHERE email = %s",("verify",request.form['email']))
+            delOTP = cur.execute("DELETE FROM otp WHERE email = %s",(request.form['email']))
+            connection.commit()
+            flash('Verify Success', 'success')
+            cur.close()
+
+            return redirect(url_for('login'))
+        else :
+            return render_template('OTP',email=request.form['email'])
+
+        
+
+
     return render_template('OTP.html')
 
 @app.route('/map')
 def map():
+    
     cur = connection.cursor()
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
     return render_template('map.html', datas=datas)
+
+
+@app.route('/resident')
+def select():
+    return render_template('resident.html')
 
 # Register Form Class
 class RegisterForm(Form):
@@ -57,37 +106,55 @@ class RegisterForm(Form):
     ])
     confirm = PasswordField('Confirm Password')
 
+def random_with_N_digits(n):
+    range_start = 10**(n-1)
+    range_end = (10**n)-1
+    return randint(range_start, range_end)
+
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
-        email = form.email.data
-        password = sha256_crypt.encrypt(str(form.password.data))
-        fname = form.fname.data
-        lastName = form.lastName.data
-
+        with smtplib.SMTP(host=SMTP_HOST, port=SMTP_PORT) as server:
+            email = form.email.data
+            password = sha256_crypt.encrypt(str(form.password.data))
+            fname = form.fname.data
+            lastName = form.lastName.data
         # Create cursor
-        cur = connection.cursor()
+            cur = connection.cursor()
 
-        x = cur.execute("SELECT * FROM members WHERE email = %s",(email))
-
-        if int(x) > 0:
+            x = cur.execute("SELECT * FROM members WHERE email = %s",(email))
+            
+            if int(x) > 0:
             # flash("That username is already taken, please choose another", 'danger')
-            return render_template('login.html', form=form)
+                return render_template('login.html', form=form)
 
         # Execute query
-        cur.execute("INSERT INTO members(email, password, firstName, lastName) VALUES(%s, %s, %s, %s)", (email, password, fname, lastName))
+            cur.execute("INSERT INTO members(email, password, firstName, lastName) VALUES(%s, %s, %s, %s)", (email, password, fname, lastName))
 
         # Commit to DB
-        connection.commit()
+            connection.commit()
 
         # Close connection
-        cur.close()
+            cur.close()
+            flash('You are now registered and can log in', 'success')
 
-        flash('You are now registered and can log in', 'success')
+            OTP = random_with_N_digits(5)
+            cur = connection.cursor()
+            cur.execute("INSERT INTO otp(OTP, email) VALUES(%s, %s)", (OTP, email))
+            connection.commit()
+            cur.close()
+            flash('Send OTP Success', 'success')
 
-        return redirect(url_for('register'))
+            
+            msg = f"From: worawit.pa.61@ubu.ac.th\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
+            server.starttls()
+            server.login('worawit.pa.61@ubu.ac.th', 'Vryi4696')
+            server.sendmail('worawit.pa.61@ubu.ac.th', form.email.data, msg)
+            return render_template('OTP.html',email=form.email.data)
+        
     return render_template('login.html', form=form)
 
 # User login
@@ -103,10 +170,10 @@ def login():
 
         # Get user by username
         result = cur.execute("SELECT * FROM members WHERE email = %s", [email])
-
-        if result > 0:
+        data = cur.fetchone()
+        if result > 0 and data['verify'] == "verify":
             # Get stored hash
-            data = cur.fetchone()
+            
             userId = data['userId']
             password = data['password']
             email = data['email']

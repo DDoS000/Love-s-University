@@ -11,6 +11,8 @@ flask-wtf = "*"
 flask-login = "*"
 passlib = "*"
 pymysql = "*"
+flask-mail = "*"
+flask-sendmail = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"
