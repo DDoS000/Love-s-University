@@ -19,14 +19,13 @@
 
 {% block body %}
 <script>
-
-
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             myLatLng = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+
 
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -35,12 +34,10 @@
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-    document.getElementById('lat').value = myLatLng.lat;
-    document.getElementById('lng').value = myLatLng.lng;
-
-
 
     function initMap() {
+        document.getElementById('lat').value = myLatLng.lat;
+        document.getElementById('lng').value = myLatLng.lng;
         var map = new google.maps.Map(document.getElementById('map'), {
             center: myLatLng,
             zoom: 15,
@@ -116,10 +113,12 @@
             document.getElementById('lng').value = latLng.lng();
             var newL = new google.maps.LatLng(document.getElementById('lat').value = latLng.lat(), document.getElementById('lng').value = latLng.lng());
             map.panTo(newL);
-            
+
         });
 
     }
+
+
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJWuQmrf6UgrkGbMJF6-m1GwTZrazBFBo&callback=initMap"
@@ -131,8 +130,20 @@
 
     <div class="container">
         <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/static/image/logo-add.png" alt="" width="96" height="96">
-            <h2>เพิ่มข้อมูลหอพัก</h2>
+            <img class="d-block mx-auto mb-4" src="../static/icons/add.svg" alt="" width="96" height="96">
+            <div class="row">
+                <h2>เพิ่มข้อมูล</h2>
+                {%if type == "resident" %}
+                <h2>หอพัก</h2>
+                {%elif type == "store" %}
+                <h2>ร้านค้า</h2>
+                {%elif type == "gas" %}
+                <h2>ปั๊มน้ำมัน</h2>
+                {%elif type == "hospital" %}
+                <h2>โรงพยาบาล</h2>
+                {%endif%}
+            </div>
+
         </div>
         <!--  map -->
         <div class="row">
@@ -140,7 +151,7 @@
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Maps</span>
                 </h4>
-               
+
                 <div class="w3-card" id="map"></div>
             </div>
             <!-- add resident -->
@@ -188,6 +199,7 @@
                             </div>
                         </div>
                         <!-- check box -->
+                        {%if type == "resident" %}
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                 <label class="checkbox-inline"><input type="checkbox" name="air" value="Yes"> แอร์
@@ -280,6 +292,9 @@
                                 <input type="hidden" name="hair_salon" value="No">
                             </div>
                         </div>
+                        {% else %}
+                        <div></div>
+                        {%endif%}
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -321,4 +336,12 @@
 </body>
 
 </html>
+
+<div id='preloader'>
+    <div class='preloader'></div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script>
 {% endblock %}
