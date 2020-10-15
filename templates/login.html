@@ -255,23 +255,24 @@
                     {% from "includes/_formhelpers.html" import render_field %}
                     <form method="POST" action="">
                         <div class="group">
-                            <!-- <label for="user" class="label">Firtname</label> -->
-                            {{render_field(form.username, class_="form-control input")}}
+                            <!-- <label for="email" class="label">email</label> -->
+                            {{render_field(form.email, class_="form-control input")}}
                         </div>
                         <div class="group">
-                            <!-- <label for="user" class="label">Lastname</label> -->
-                            {{render_field(form.username, class_="form-control input")}}
+                            <!-- <label for="fname" class="label">fname</label> -->
+                            {{render_field(form.fname, class_="form-control input")}}
                         </div>
                         <div class="group">
-                            <!-- <label for="pass" class="label">Password</label> -->
+                            <!-- <label for="lastName" class="label">lastName</label> -->
+                            {{render_field(form.lastName, class_="form-control input")}}
+                        </div>
+                        <div class="group">
+                            <!-- <label for="password" class="label">password</label> -->
                             {{render_field(form.password, class_="form-control input")}}
                         </div>
                         <div class="group">
-                            <!-- <label for="pass" class="label">Repeat Password</label> -->
+                            <!-- <label for="confirm" class="label">confirm password</label> -->
                             {{render_field(form.confirm, class_="form-control input")}}
-                        </div>
-                        <div class="group">
-                            {{render_field(form.email, class_="form-control input")}}
                         </div>
                         <div class="group">
                             <input type="submit" class="button" value="Sign Up">
