@@ -74,36 +74,16 @@ def OTP():
         else :
             return render_template('OTP',email=request.form['email'])
 
-        
-
-
     return render_template('OTP.html')
 
 @app.route('/map')
 def map():
-    
     cur = connection.cursor()
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
 
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM stores")
-    stores = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM gas_stations")
-    gas = cur.fetchall()
-    cur.close()
-
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM hospitals")
-    hospitals = cur.fetchall()
-    cur.close()
-
-
-    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
+    return render_template('map.html', datas=datas)
 
 
 @app.route('/resident')
@@ -245,14 +225,33 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-# @app.route('/add/<string:type>')
-# def add(type):
-#     return
+@app.route('/adds/<string:type>', methods=['GET', 'POST'])
+def adds(type):
+    render_template("adds.html",type=type)
+
+@app.route('/insert_location', methods=['POST'])
+def insert_location():
+    if request.method == 'POST':
+        user_id = request.form['addformuser']
+        names = request.form['names']
+        lat = request.form['lat']
+        lng = request.form['lng']
+        types = request.form['types']
+
+        cur = connection.cursor()
+        x = cur.execute("SELECT * FROM all_location WHERE names = %s",[names])
+        if int(x) > 0:
+            flash("มีคนได้เพิ่มสถานที่นี้ไปแล้วพักนี้ไปแล้ว", 'danger')
+            cur.close()
+        cur.execute("INSERT INTO all_location(name, lat, lng, type) VALUES(%s, %s, %s, %s)", (names, lat, lng, types))
+        connection.commit()
+        cur.close()
+        
+    return redirect(url_for('resident'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        print("POST")
         user_id = request.form['addformuser']
         residentName = request.form['residentName']
         lat = request.form['lat']
@@ -296,7 +295,7 @@ def add():
 
         connection.commit()
         cur.close()
-   
+
     return render_template("add.html")
 
 @app.route('/resident/<string:id>',methods=['GET'])
