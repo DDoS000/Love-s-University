@@ -35,6 +35,9 @@
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+    document.getElementById('lat').value = myLatLng.lat;
+    document.getElementById('lng').value = myLatLng.lng;
+
 
 
     function initMap() {
@@ -137,12 +140,7 @@
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Maps</span>
                 </h4>
-                <ul class="list-group mb-3">
-                    <h1>Map Code</h1>
-
-
-
-                </ul>
+               
                 <div class="w3-card" id="map"></div>
             </div>
             <!-- add resident -->
@@ -176,13 +174,13 @@
                         <div class="mb-3">
                             <label for="phoneConnect">เบอร์โทร</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="phoneConnect" placeholder="" value="">
+                                <input type="text" class="form-control" id="phoneConnect" placeholder="">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="lat">พิกัด lat</label>
-                                <input type="text" class="form-control" id="lat" placeholder="" value="">
+                                <input type="text" class="form-control" id="lat" placeholder="">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="lng">พิกัด lng</label>
