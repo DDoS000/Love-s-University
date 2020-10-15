@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title>Add Residdent</title>
+    <title>Resident</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
 
@@ -21,10 +21,6 @@
   <body class="bg-light">
 
     <div class="container">
-      <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/static/image/logo-add.png" alt="" width="96" height="96">
-        <h2>เพิ่มข้อมูลหอพัก</h2>
-      </div>
 <!--  map -->
       <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
@@ -41,7 +37,7 @@
           <form class="needs-validation" novalidate>
               <form action="/add" method="POST" enctype="multipart/form-data">
                 <div class="row">
-                <input type="hidden" name="addformuser" value="1">
+                    <img class="w3-card" src="/static/image/james.jpg" alt="" width="450" height="450">
                 <div class="col-md-6 mb-3">
                     <label for="residentName">ชื่อหอพัก</label>
                     <input type="text" class="form-control" id="residentName" placeholder="" value="" >
@@ -168,13 +164,6 @@
                 </div>
 
                 <!-- Upload Image -->
-                <div class="row">
-                <div class="col-12">
-                    <label for="img">Select image:</label>
-                    <input type="file" id="image" name="image" ccept="image/x-png,image/gif,image/jpeg,image/jpg"><br><br> 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to submit</button>
-                </div>
-                </div>
               </form>
           </form>
         </div>
