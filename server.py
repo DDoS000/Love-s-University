@@ -371,6 +371,24 @@ def resident(id):
     return render_template("resident.html",datas=datas ,id=id,reviews=reviews)
 
 
+@app.route('/delete/<string:path>/<string:id_delete>',methods=['GET'])
+@is_logged_in
+def delete(path,id_delete):
+    cur = connection.cursor()
+    if path == "members":
+        cur.execute("delete FROM members WHERE userId = %s",[id_delete])
+    elif path == "all_location":
+        cur.execute("delete FROM all_location WHERE id = %s",[id_delete])
+    elif path == "residents":
+        cur.execute("delete FROM residents WHERE residentId = %s",[id_delete])
+    elif path == "reviews":
+        cur.execute("delete FROM reviews WHERE reviewId = %s",[id_delete])
+
+    connection.commit()
+    cur.close()
+    return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
     app.run(debug=True)
