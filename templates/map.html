@@ -15,7 +15,7 @@
 <style>
   #map {
     height: 75%;
-    width: 75%;
+    width: 100%;
   }
 
   html,
@@ -58,7 +58,7 @@
   var gas = {{ gas| tojson
   }};
 
-  var hospitals = {{ datas| tojson
+  var hospitals = {{ hospitals| tojson
   }};
 
 
@@ -139,7 +139,7 @@
         lat: parseFloat(datas[i].lat),
         lng: parseFloat(datas[i].lng)
       },
-      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      icon: "https://img.icons8.com/color/48/000000/hotel.png",
       animation: google.maps.Animation.DROP,
       map: map
     });
@@ -167,7 +167,7 @@
         lat: parseFloat(stores[i].lat),
         lng: parseFloat(stores[i].lng)
       },
-      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      icon: "https://img.icons8.com/color/48/000000/shop.png",
       animation: google.maps.Animation.DROP,
       map: map
     });
@@ -188,7 +188,7 @@
         lat: parseFloat(gas[i].lat),
         lng: parseFloat(gas[i].lng)
       },
-      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      icon: "https://img.icons8.com/color/48/000000/gas-station.png",
       animation: google.maps.Animation.DROP,
       map: map
     });
@@ -209,7 +209,7 @@
         lat: parseFloat(hospitals[i].lat),
         lng: parseFloat(hospitals[i].lng)
       },
-      icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+      icon: "https://img.icons8.com/color/48/000000/hospital.png",
       animation: google.maps.Animation.DROP,
       map: map
     });

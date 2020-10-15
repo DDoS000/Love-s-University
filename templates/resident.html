@@ -12,6 +12,7 @@
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     #map {
         height: 50%;
@@ -106,7 +107,7 @@
 
 
         var my = new google.maps.Marker({
-            icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+            icon: "https://img.icons8.com/color/48/000000/hotel.png",
             position: LatLng,
             map: map,
             animation: google.maps.Animation.DROP,
@@ -123,7 +124,7 @@
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <a href="/map"><button>Back</button></a>
+        <a href="/"><button>Back</button></a>
         <div class="row">
             <!-- contact form -->
             <div class="col-md-6 ">
@@ -145,8 +146,6 @@
                         <h4>detail:</h4>
                         <p style="margin-top:8px; margin-left: 10px;">{{datas[0].details}}</p>
                     </div>
-
-
 
                     <div class="row w3-card-4">
                         <div style="margin-left:10%; margin-top:5%; margin-bottom:5%;">
@@ -300,7 +299,6 @@
                             <img src="../static/icons/not.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> laundry</label><br>
                             {% endif %}
-
                         </div>
                     </div>
                 </div>
@@ -323,29 +321,27 @@
                         <li>
                             <h4>Comment</h4>
                         </li>
-                        <li><input></li>
                     </div>
-                    <div style="margin-left: 20px; margin-top: 20px;">
-                        <li>
-                            <h4>rating</h4>
-                        </li>
-                        <form action="/action_page.php">
-                            <select name="rating" id="rating">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <input type="submit" value="Submit">
-                        </form>
-
-                    </div>
-
-                    <div style="margin-left: 20px; margin-bottom: 20px;">
-                        <li >
-                            <h4>Other comments</h4>
-                        </li>
+                    <div class="container">
+                        <div class="star-widget">
+                            <input type="radio" name="rating" id="rate-5">
+                            <label for="rate-5" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-4">
+                            <label for="rate-4" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-3">
+                            <label for="rate-3" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-2">
+                            <label for="rate-2" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rate-1">
+                            <label for="rate-1" class="fa fa-star"></label>
+                            <form action="#">
+                                <header></header>
+                                <div class="textarea" >
+                                    <textarea cols="30" id="comments" name="comments"></textarea>
+                                </div>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Post</button>
+                            </form>
+                        </div>
                     </div>
                 </ul>
 
