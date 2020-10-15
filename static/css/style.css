@@ -1264,9 +1264,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
   #rate-5:checked ~ form header:before{
 	content: "😍";
   }
-  .container form{
-	display: none;
-  }
   input:checked ~ form{
 	display: block;
   }
