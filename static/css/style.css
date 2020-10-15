@@ -72,6 +72,10 @@ h4 {
 	font-size:18px;
 	font-family: 'Prompt';
 }
+label{
+	font-family: 'Prompt';
+}
+
 
 a {
 	font-family: 'Prompt';
@@ -81,8 +85,6 @@ a {
 
 a:hover,
 a:focus{
-    text-decoration: none;
-    outline: none;
 	color: #374050;
 	opacity: 0.9;
 }
@@ -91,7 +93,7 @@ ul,ol{
 	font-family: 'Prompt';
     margin: 0;
     padding: 0;
-    list-style: none
+   
 }
 
 .white-text {
@@ -102,7 +104,7 @@ blockquote {
 	position: relative;
 	margin: 20px 0px;
 	padding: 20px 20px 20px 60px;
-	border-left: none;
+
 	color: #374050;
 }
 
@@ -960,7 +962,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	height:40px;
 	width:40px;
 	background-color:transparent;
-	border:none;
+
 }
 
 .widget.search-widget .input:focus + button {
@@ -1208,9 +1210,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-  .container .post{
-	display: none;
-  }
+  
   .container .text{
 	font-size: 25px;
 	color: rgb(0, 0, 0);
@@ -1229,7 +1229,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	text-decoration: underline;
   }
   .container .star-widget input{
-	display: none;
+
   }
   .star-widget label{
 	font-size: 40px;
@@ -1264,9 +1264,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
   #rate-5:checked ~ form header:before{
 	content: "😍";
   }
-  .container form{
-	display: none;
-  }
   input:checked ~ form{
 	display: block;
   }
@@ -1287,13 +1284,13 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
   form .textarea textarea{
 	height: 100%;
 	width: 100%;
-	outline: none;
+
 	color: rgb(0, 0, 0);
 	border: 1px solid #333;
 	background: rgb(255, 255, 255);
 	padding: 10px;
 	font-size: 17px;
-	resize: none;
+
   }
   .textarea textarea:focus{
 	border-color: #444;
@@ -1370,10 +1367,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	.contact-form  {
 		margin-bottom:40px;
 	}
-
-	.contact-form button {
-		float:none !important;
-	}
 	
 	/*-- Blog page --*/
 	#main {
@@ -1393,9 +1386,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	}
 
 	/*-- Pagination --*/
-	.post-pagination .pages {
-		display:none;
-	}
+	
 }
 
 @media only screen and (max-width: 480px) {
@@ -1412,7 +1403,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	/*-- Blog Reply Form --*/
 	.blog-reply-form .input.name-input , .blog-reply-form .input.email-input {
 		width: 100%;
-		float:none;
+		
 	}
 	
 	.blog-reply-form .input.email-input {

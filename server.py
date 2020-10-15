@@ -57,7 +57,13 @@ def landing():
 
 @app.route('/index')
 def index():
-    return render_template('landing.html')
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM residents")
+    datas = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas)
 
 @app.route('/admin')
 def Addmin():
@@ -196,7 +202,7 @@ def login():
 
 
                 flash('You are now logged in', 'success')
-                return redirect(url_for('map'))
+                return redirect(url_for('index'))
             else:
                 error = 'Invalid login'
                 return redirect(url_for('register', error=error))
