@@ -31,6 +31,7 @@ def landing():
 def index():
     return render_template('landing.html')
 
+
 @app.route('/OTP')
 def OTP():
     return render_template('OTP.html')
@@ -39,9 +40,18 @@ def OTP():
 def map():
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents")
-    data = cur.fetchall()
+    print(result)
+    datas = cur.fetchall()
     cur.close()
-    return render_template('map.html', residents=data)
+    return render_template('map.html', datas=datas)
+
+# @app.route('/add-residents')
+# def add():
+#     return render_template('addResidents.html')
+
+@app.route('/resident')
+def select():
+    return render_template('resident.html')
 
 
 # Register Form Class
@@ -208,6 +218,14 @@ def add():
         flash('You are now registered and can log in', 'success')
         # return redirect(url_for('register'))
     return render_template("add.html")
+
+@app.route('/resident/<string:id>',methods=['GET'])
+def resident(id):
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
+    datas = cur.fetchall()
+    cur.close()
+    return render_template("resident.html",datas=datas)
 
 
 if __name__ == '__main__':
