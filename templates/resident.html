@@ -8,6 +8,7 @@
 
 <!-- Font Awesome Icon -->
 <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="../static/css/style.css" />
@@ -22,7 +23,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
-    }
+    }a
 
     img {
         border-radius: 8px;
@@ -35,27 +36,17 @@
 
 <script>
 
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            myLatLng = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+    var datas = {{ datas| tojson}};
+    console.log(datas[0]);
+    var LatLng = {
+        lat: parseFloat(datas[0].lat),
+        lng: parseFloat(datas[0].lng)
     }
-
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-            center: myLatLng,
-            zoom: 15,
+            center: LatLng,
+            zoom: 16,
             styles: [
                 {
                     "featureType": "administrative",
@@ -115,7 +106,8 @@
 
 
         var my = new google.maps.Marker({
-            position: myLatLng,
+            icon: "https://img.icons8.com/color/48/000000/order-shipped.png",
+            position: LatLng,
             map: map,
             animation: google.maps.Animation.DROP,
 
@@ -131,6 +123,7 @@
     <!-- container -->
     <div class="container">
         <!-- row -->
+        <a href="/map"><button>Back</button></a>
         <div class="row">
             <!-- contact form -->
             <div class="col-md-6 ">
@@ -159,54 +152,155 @@
                         <div style="margin-left:10%; margin-top:5%; margin-bottom:5%;">
                             <h4>detail</h4>
                             {% if datas[0].air != "" %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> air</label><br>
                             {% else %}
-                            <input type="checkbox" id="vehicle2" name="vehicle2">
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> air</label><br>
-                            <input type="checkbox" id="vehicle2" name="vehicle2" checked>
-                            <label for="vehicle2"> fan</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
-                            <label for="vehicle3"> water heater</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
-                            <label for="vehicle3"> furniture</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3">
-                            <label for="vehicle3"> cable tv</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3" checked>
-                            <label for="vehicle3"> direct phone</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% endif %}
+
+
+                            {% if datas[0].fan != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> fan</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> fan</label><br>
+                            {% endif %}
+
+                            {% if datas[0].water_heater != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> water heater</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> water heater</label><br>
+                            {% endif %}
+
+                            {% if datas[0].furniture != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> furniture</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> furniture</label><br>
+                            {% endif %}
+
+                            {% if datas[0].cable_tv != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> cable tv</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> cable tv</label><br>
+                            {% endif %}
+
+                            {% if datas[0].phone_direct != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> direct phone</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> direct phone</label><br>
+                            {% endif %}
+
+                            {% if datas[0].pet != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> pet</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3">
-                            <label for="vehicle3"> internet</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> pet</label><br>
+                            {% endif %}
+
+                            {% if datas[0].internet != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> internet</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> internet</label><br>
+                            {% endif %}
+
+                            {% if datas[0].pool != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> pool</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> pool</label><br>
+                            {% endif %}
+
+                            {% if datas[0].fitness != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> fitness</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> fitness</label><br>
+                            {% endif %}
+
 
                         </div>
-                        <div style="margin-left: 50px;">
 
-                        </div>
-                        <div>
+                        <div style="margin-left: 50px; margin-top:15%; margin-bottom:5%;">
 
-                            <input type="checkbox" id="vehicle1" name="vehicle1" >
+                            {% if datas[0].smoking != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> smoking</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> smoking</label><br>
+                            {% endif %}
+
+                            {% if datas[0].parking != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> parking</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
-                            <label for="vehicle1"> elevator</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> parking</label><br>
+                            {% endif %}
+
+                            {% if datas[0].elevators != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> elevators</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> elevators</label><br>
+                            {% endif %}
+
+                            {% if datas[0].security != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> security</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" >
-                            <label for="vehicle1"> air</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> security</label><br>
+                            {% endif %}
+
+                            {% if datas[0].keycard != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> keycard</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" >
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> keycard</label><br>
+                            {% endif %}
+
+                            {% if datas[0].cctv != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> cctv</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" >
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> cctv</label><br>
+                            {% endif %}
+
+                            {% if datas[0].hair_salon != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> hair salon</label><br>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" checked>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> hair salon</label><br>
+                            {% endif %}
+
+                            {% if datas[0].laundry != "" %}
+                            <img src="../static/icons/correct.svg" alt="not" width="15" height="15">
                             <label for="vehicle1"> laundry</label><br>
+                            {% else %}
+                            <img src="../static/icons/not.svg" alt="not" width="15" height="15">
+                            <label for="vehicle1"> laundry</label><br>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -217,9 +311,8 @@
             <div class="col-md-5 col-md-offset-1">
                 <h4>Contact Information</h4>
                 <ul class="contact-details">
-                    <li><i class="fa fa-envelope"></i>Educate@email.com</li>
-                    <li><i class="fa fa-phone"></i>122-547-223-45</li>
-                    <li><i class="fa fa-map-marker"></i>4476 Clement Street</li>
+                    <li><i class="fa fa-envelope"></i>{{datas[0].OtherConnect}}</li>
+                    <li><i class="fa fa-phone"></i>{{datas[0].phoneConnect}}</li>
                 </ul>
 
                 <!-- contact map -->

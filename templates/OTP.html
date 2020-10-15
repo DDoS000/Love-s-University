@@ -1,9 +1,9 @@
 <div class="login">
     <h1>Please enter OTP</h1>
-    <p style="color: #e6e6e6;">เราได้ทำการส่งรหัสยืนยันไปที่ Email ของท่านแล้ว กรุณากรอกรหัส OTP ที่ด้านล่าง</p>
-    <form method="post">
-    	<input type="text" name="u" placeholder="OTP" required="required" />
-        
+	<p style="color: #e6e6e6;">เราได้ทำการส่งรหัสยืนยันไปที่ Email ของท่านแล้ว กรุณากรอกรหัส OTP ที่ด้านล่าง</p>
+    <form action="OTP" method="POST">
+		<input type="hidden" id="email" name="email" value={{email}} />
+    	<input type="text" id="OTP" name="OTP" placeholder="OTP" required="required"/>
         <button type="submit" class="btn btn-primary btn-block btn-large">Confirm</button>
     </form>
     <p style="color: #e6e6e6;">หากยังไม่ได้รับรหัสยืนยัน</p><a style="color:cornsilk;" href="#ชื่อจุดเชื่อมโยง">คลิกที่นี่</a>
