@@ -165,7 +165,7 @@
                         <td>{{i.userId}}</td>
                         <td>{{i.firstName}} {{i.lastName}}</td>
                         <td>{{i.email}}</td>
-                        <td><a href="/admin" class="btn btn-danger btn-xs"
+                        <td><a href="/delete/members/{{i.userId}}" class="btn btn-danger btn-xs"
                             onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่')">Delete</a></td>
                       </tr>
                       {%endfor%}
@@ -190,8 +190,8 @@
                         <td>{{i.residentId}}</td>
                         <td>{{i.residentName}}</td>
                         <td>{{i.lat}} {{i.lng}}</td>
-                        <td><a href="/admin" class="btn btn-success btn-xs"
-                            onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Accept</a></td>
+                        <td><a href="/delete/residents/{{i.residentId}}" class="btn btn-danger btn-xs"
+                          onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
                       </tr>
                       {%endfor%}
                     </tbody>
@@ -216,8 +216,8 @@
                         <td>{{i.id}}</td>
                         <td>{{i.name}}</td>
                         <td>{{i.lat}} {{i.lng}}</td>
-                        <td><a href="/admin" class="btn btn-success btn-xs"
-                            onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Accept</a></td>
+                        <td><a href="/delete/all_location/{{i.id}}" class="btn btn-danger btn-xs"
+                          onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
                       </tr>
                       {%endfor%}
                     </tbody>
@@ -245,7 +245,7 @@
                         <td>{{i.residentId}}</td>
                         <td>{{i.comments}}</td>
                         <td>{{i.rating}}</td>
-                        <td><a href="/admin" class="btn btn-danger btn-xs"
+                        <td><a href="/delete/reviews/{{i.reviewId}}" class="btn btn-danger btn-xs"
                             onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
                       </tr>
                       {%endfor%}

@@ -42,7 +42,6 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 # Index
 @app.route('/')
 def landing():
-     
     cur = connection.cursor()
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
@@ -71,7 +70,7 @@ def index():
 
     return render_template('map.html', datas=datas, all=all)
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 def Addmin():
     cur = connection.cursor()
     cur.execute("SELECT * FROM members")
@@ -104,9 +103,6 @@ def Addmin():
     cur = connection.cursor()
     total_users = cur.execute("SELECT * FROM members")
     cur.close()
-
-
-
     return render_template('Admin.html',members=members, residents=residents, all=all, reviews=reviews,total_residents=total_residents, total_comments=total_comments ,total_users=total_users)
 
 @app.route('/OTP', methods=['GET', 'POST'])
@@ -366,8 +362,6 @@ def resident(id):
         connection.commit()
         cur.close()
         
-
-
     return render_template("resident.html",datas=datas ,id=id,reviews=reviews)
 
 
@@ -386,7 +380,7 @@ def delete(path,id_delete):
 
     connection.commit()
     cur.close()
-    return redirect(url_for('index'))
+    return redirect(url_for('Addmin'))
 
 
 if __name__ == '__main__':
