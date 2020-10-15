@@ -86,12 +86,33 @@ def map():
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
-    return render_template('map.html', datas=datas)
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM stores")
+    stores = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM gas_stations")
+    gas = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM hospitals")
+    hospitals = cur.fetchall()
+    cur.close()
+
+
+    return render_template('map.html', datas=datas, stores=stores , gas=gas , hospitals=hospitals)
 
 
 @app.route('/resident')
 def select():
     return render_template('resident.html')
+
+@app.route('/select')
+def selectType():
+    return render_template('select.html')
 
 # Register Form Class
 class RegisterForm(Form):
@@ -224,56 +245,106 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
+@app.route('/add/<string:type>', methods=['GET', 'POST'])
+def add(type):
     if request.method == 'POST':
-        user_id = request.form['addformuser']
-        residentName = request.form['residentName']
-        lat = request.form['lat']
-        lng = request.form['lng']
-        roomType = request.form['roomType']
-        price = request.form['price']
-        details = request.form['details']
-        phoneConnect = request.form['phoneConnect']
-        OtherConnect = request.form['OtherConnect']
-        image = request.files['image']
-        air = request.form['air']
-        fan = request.form['fan']
-        water_heater = request.form['water_heater']
-        furniture = request.form['furniture']
-        cable_tv = request.form['cable_tv']
-        phone_direct = request.form['phone_direct']
-        internet = request.form['internet']
-        pet = request.form['pet']
-        smoking = request.form['smoking']
-        parking = request.form['parking']
-        elevators = request.form['elevators']
-        security = request.form['security']
-        keycard = request.form['keycard']
-        cctv = request.form['cctv']
-        pool = request.form['pool']
-        fitness = request.form['fitness']
-        laundry = request.form['laundry']
-        hair_salon = request.form['hair_salon']
+        if type == "resident":
+            user_id = request.form['addformuser']
+            residentName = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            roomType = request.form['roomType']
+            price = request.form['price']
+            details = request.form['details']
+            phoneConnect = request.form['phoneConnect']
+            OtherConnect = request.form['OtherConnect']
+            image = request.files['image']
+            air = request.form['air']
+            fan = request.form['fan']
+            water_heater = request.form['water_heater']
+            furniture = request.form['furniture']
+            cable_tv = request.form['cable_tv']
+            phone_direct = request.form['phone_direct']
+            internet = request.form['internet']
+            pet = request.form['pet']
+            smoking = request.form['smoking']
+            parking = request.form['parking']
+            elevators = request.form['elevators']
+            security = request.form['security']
+            keycard = request.form['keycard']
+            cctv = request.form['cctv']
+            pool = request.form['pool']
+            fitness = request.form['fitness']
+            laundry = request.form['laundry']
+            hair_salon = request.form['hair_salon']
 
-        filename = secure_filename(image.filename)
-        image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
-        # Create cursor
-        cur = connection.cursor()
-        x = cur.execute("SELECT * FROM residents WHERE residentName = %s",[residentName])
-        if int(x) > 0:
-            flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
-        cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config["IMAGE_UPLOAD"], filename))
 
-         # Commit to DB
-        connection.commit()
+            cur = connection.cursor()
+            x = cur.execute("SELECT * FROM residents WHERE residentName = %s",[residentName])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มหอพักนี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO residents(addformuser, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, image, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (user_id, residentName, lat, lng, roomType, price, details, phoneConnect, OtherConnect, filename, air, fan, water_heater, furniture, cable_tv, phone_direct, internet, pet, smoking, parking, elevators, security, keycard, cctv, pool, fitness, laundry, hair_salon))
 
-        # Close connection
-        cur.close()
+            connection.commit()
 
-        flash('You are now registered and can log in', 'success')
-        # return redirect(url_for('register'))
-    return render_template("add.html")
+            cur.close()
+
+            flash('resident saved', 'success')
+        elif type == "store":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM stores WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO stores(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('store has saved', 'success')
+        
+        elif type == "gas":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM gas_stations WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO gas_stations(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('gas station has saved', 'success')
+        
+        elif type == "hospital":
+            name = request.form['residentName']
+            lat = request.form['lat']
+            lng = request.form['lng']
+            cur = connection.cursor()
+
+            x = cur.execute("SELECT * FROM hospitals WHERE name = %s",[name])
+            if int(x) > 0:
+                flash("มีคนได้เพิ่มร้านค้านี้ไปแล้ว", 'danger')
+            cur.execute("INSERT INTO hospitals(name, lat, lng) VALUES(%s, %s, %s)", (name, lat, lng))
+
+            connection.commit()
+
+            cur.close()
+
+            flash('hospital station has saved', 'success')
+
+            
+    return render_template("add.html",type=type)
 
 @app.route('/resident/<string:id>',methods=['GET'])
 def resident(id):
