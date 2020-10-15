@@ -156,14 +156,14 @@
                             <label for="residentName">ชื่อ</label>
                             <input type="text" class="form-control" name="residentName" placeholder="" value="">
                         </div>
-                        {% if type == "resident" %}
+                       
                         <div class="col-md-6 mb-3">
                             <label for="roomType">ประเภทของห้อง</label>
                             <input type="text" class="form-control" name="roomType" placeholder="" value="">
                         </div>
-                        {%endif%}
+                     
                     </div>
-                    {% if type == "resident" %}
+            
                     <div class="mb-3">
                         <label for="price">ราคา (500-1000)</label>
                         <div class="input-group">
@@ -183,7 +183,7 @@
                             <input type="text" class="form-control" name="phoneConnect" placeholder="">
                         </div>
                     </div>
-                    {%endif%}
+              
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="lat">พิกัด lat</label>
@@ -194,7 +194,7 @@
                             <input type="text" class="form-control" name="lng" id="lng" placeholder="">
                         </div>
                     </div>
-                    {% if type == "resident" %}
+             
                     <!-- check box -->
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
@@ -313,15 +313,7 @@
                                 submit</button>
                         </div>
                     </div>
-                    {%else%}
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
-                                submit</button>
-                        </div>
-                    </div>
-
-                    {%endif%}
+            
                 </form>
             </div>
         </div>
