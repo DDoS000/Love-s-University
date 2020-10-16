@@ -1,15 +1,24 @@
+
 {% extends 'layout.html' %}
-{% block head %}
+{% block style %}
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Raleway", sans-serif
+  }
 </style>
 
-{% endblock %}
-{% block body %}
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap.min.css">
@@ -25,213 +34,345 @@
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
 
+
+<link type="text/css" rel="stylesheet" href="../../static/css/style.css" />
+
+{% endblock %}
+<!DOCTYPE html>
+<html>
+<header id="header" class="transparent-nav" style="background-color: #374050; opacity: 0.8;">
+  <div class="container">
+    <!-- <div class="row">
+      <div class="navbar-header">
+   
+        <div class="navbar-brand">
+
+          <h2 style="color: white; font-family: 'Prompt'; ">UFU</h2>
+        </div>
+
+      </div>
+      <nav id="nav">
+        <ul class="main-menu nav navbar-nav navbar-right">
+          {% if session.logged_in and session.permission == 'M' %}
+          <div class="row" style="position: absolute; right: 100px;">
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">User
+                {{session.firstName}} </a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign
+                Out</a></li>
+          </div>
+          {% elif session.logged_in and session.permission == 'A' %}
+          <div class="row" style="position: absolute; right: 100px;">
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Admin
+                {{session.firstName}} </a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign
+                Out</a></li>
+          </div>
+          {% else %}
+          <div class="row">
+            <li style="margin-left: 30px; margin-top: 20px; position: absolute; right: 200px;"><a href="/"
+                style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px; position: absolute; right: 100px; "><a href="/login"
+                style="font-family: 'Prompt';">Sign In</a></li>
+          </div>
+          {% endif %}
+        </ul>
+      </nav>
+    </div> -->
+  </div>
+</header>
+<!-- /Header -->
 <br><br><br>
-<h1><i class='fas fa-tachometer-alt'></i> My Dashboard <small> Welcome {{session.firstName}}</small></h1>
-<hr>
-<div class="w3-row-padding w3-margin-bottom">
+{% block body %}
+<div style="position: relative; text-align: center; margin-top: 100px;">
+  <h1><i class='fas fa-tachometer-alt'></i> My Dashboard <small> Welcome {{session.firstName}}</small></h1>
+  <hr>
+  <div class="w3-row-padding w3-margin-bottom" style="text-align: center; margin-left: 20%;">
     <div class="w3-quarter">
       <div class="w3-container w3-red w3-padding-16">
         <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>1</h3>
+          <h3>{{total_residents}}</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>New Location</h4>
+        <h4>Total Residents</h4>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-blue w3-padding-16">
         <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>3</h3>
+          <h3>{{total_comments}}</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>New Command</h4>
+        <h4>Total Comments</h4>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-orange w3-text-white w3-padding-16">
         <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>4</h3>
+          <h3>{{total_users}}</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Users</h4>
-        </div>
+        <h4>Total Users</h4>
       </div>
     </div>
+  </div>
 
-    <div class="container">
+  <div class="container">
     <div class="panel panel-info">
-      <div class="panel-heading"><h2>Status Location</h2></div>
-      <div class="panel-body">
-      <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#Wait">Wait <span class="badge">a</span></a></li>
-        <li><a data-toggle="tab" href="#Accept">Accept <span class="badge">a</span></a></li>
-        <li><a data-toggle="tab" href="#Sending">Sending <span class="badge">a</span></a></li>
-        <li><a data-toggle="tab" href="#completed">Completed <span class="badge">a</span></a></li>
-      </ul>
-      
-      <div class="tab-content">
-        <div id="Wait" class="tab-pane fade in active">
-          <h3>Wait</h3>
-          <table id="table1" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Menu</th>
-                <th>Order_data</th>
-                <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td><a href="/upstatus/a" class="btn btn-success btn-xs" onclick="return confirm('คุณต้องการอัพสถานะให้เมนู a ของ a หรือไม่')">Next Status</a></td>
-              </tr>
-          </tbody>
-        </table>
-        </div>
-        <div id="Accept" class="tab-pane fade">
-          <h3>Accept</h3>
-          <table id="table2" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Menu</th>
-                <th>Order_data</th>
-                <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td><a href="/upstatus/a" class="btn btn-success btn-xs" onclick="return confirm('คุณต้องการอัพสถานะให้เมนู a ของ a หรือไม่')">Next Status</a></td>
-              </tr>
-          </tbody>
-        </table>
-        </div>
-        <div id="Sending" class="tab-pane fade">
-          <h3>Sending</h3>
-          <table id="table3" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Menu</th>
-                <th>Order_data</th>
-                <th>Address</th>
-                <th>price</th>
-                <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td><a href="/upstatus/a" class="btn btn-success btn-xs" onclick="return confirm('คุณต้องการอัพสถานะให้เมนู a ของ a หรือไม่')">Next Status</a></td>
-              </tr>
-          </tbody>
-        </table>
-        </div>
-        <div id="completed" class="tab-pane fade">
-          <h3>Completed</h3>
-          <table id="table4" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Menu</th>
-                <th>Order_data</th>
-                <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td><a href="/delete/a" class="btn btn-danger btn-xs" onclick="return confirm('คุณต้องการลบเมนู a ของ {a หรือไม่')">Delete</a></td>
-              </tr>
-          </tbody>
-        </table>
-        </div>
-        </div>
+      <div class="panel-heading">
+        <h2>Status Location</h2>
       </div>
-    </div>
-    </div>
-    
-    <div class="container">
-      <div class="panel panel-warning">
-        <div class="panel-heading"><h2>Status Command</h2></div>
-          <div class="panel-body">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-              </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+      <div class="panel-body">
+
+
+        <div class="tab-content">
+          <div id="Wait" class="tab-pane fade in active">
+            <div class="tabs">
+              <div class="tab-header">
+                <div class="active">
+                  <i class="fa fa-code"></i> User
+                </div>
+                <div>
+                  <i class="fa fa-pencil-square-o"></i> Residents
+                </div>
+                <div>
+                  <i class="fa fa-bar-chart"></i> Others
+                </div>
+                <div>
+                  <i class="fa fa-envelope-o"></i> Reviews
+                </div>
+              </div>
+              <div class="tab-indicator"></div>
+              <div class="tab-body">
+                <div class="active" style="margin-left: 8%;">
+                  <br>
+                  <p>User</p>
+                  <table id="table1" class="table table-striped table-bordered" style="width:800px; height: 100%;">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in members%}
+                      <tr>
+                        <td>{{i.userId}}</td>
+                        <td>{{i.firstName}} {{i.lastName}}</td>
+                        <td>{{i.email}}</td>
+                        <td><a href="/delete/members/{{i.userId}}" class="btn btn-danger btn-xs"
+                            onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่')">Delete</a></td>
+                      </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+                <div style="margin-left: 8%;">
+                  <br>
+                  <p>Residents</p>
+                  <table id="table2" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>lat lng</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in residents%}
+                      <tr>
+                        <td>{{i.residentId}}</td>
+                        <td>{{i.residentName}}</td>
+                        <td>{{i.lat}} {{i.lng}}</td>
+                        <td><a href="/delete/residents/{{i.residentId}}" class="btn btn-danger btn-xs"
+                          onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
+                      </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+
+                </div>
+                <div style="margin-left: 8%;">
+                  <br>
+                  <p>Others</p>
+                  <table id="table3" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>lat lng</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in all%}
+                      <tr>
+                        <td>{{i.id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.lat}} {{i.lng}}</td>
+                        <td><a href="/delete/all_location/{{i.id}}" class="btn btn-danger btn-xs"
+                          onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
+                      </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+                <div style="margin-left: 8%;">
+                  <br>
+                  <p>Reviews</p>
+                  <table id="table3" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>userId</th>
+                        <th>ResidentId</th>
+                        <th>Comments</th>
+                        <th>Ratings</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in reviews%}
+                      <tr>
+                        <td>{{i.reviewId}}</td>
+                        <td>{{i.userId}}</td>
+                        <td>{{i.residentId}}</td>
+                        <td>{{i.comments}}</td>
+                        <td>{{i.rating}}</td>
+                        <td><a href="/delete/reviews/{{i.reviewId}}" class="btn btn-danger btn-xs"
+                            onclick="return confirm('คุณต้องการยืนยันหรือไม่')">Delete</a></td>
+                      </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+
+
+              </div>
+
+
             </div>
+
+
           </div>
         </div>
       </div>
+
     </div>
+  </div>
+
+</div>
+</div>
+
+<style>
+  .tabs {
+    position: relative;
+    left: 20px;
+    top: 10px;
+    width: 1050px;
+    height: 500px;
+    background: #f5f5f5;
+    padding: 20px 30px;
+    overflow: hidden;
+    border-radius: 50px;
+    box-shadow: 5px 10px 5px #ccc;
+  }
+
+  .tabs .tab-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
+
+  .tabs .tab-header>div {
+    width: calc(100% / 4);
+    text-align: center;
+    color: #888;
+    font-weight: 400;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    outline: none;
+  }
+
+  .tabs .tab-header>div>i {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .tabs .tab-header>div.active {
+    color: #00acee;
+  }
+
+  .tabs .tab-indicator {
+    position: relative;
+    width: calc(100% / 4);
+    height: 5px;
+    background: #00acee;
+    left: 0px;
+    border-radius: 5px;
+    transition: all 500ms ease-in-out;
+  }
+
+  .tabs .tab-body {
+    position: relative;
+    height: calc(100% - 60px);
+    padding: 10px 5px;
+  }
+
+  .tabs .tab-body>div {
+    position: absolute;
+    top: -200%;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 500ms ease-in-out 0ms,
+      transform 500ms ease-in-out 0ms;
+  }
+
+  .tabs .tab-body>div.active {
+    top: 0px;
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  let tabHeader = document.getElementsByClassName("tab-header")[0];
+  let tabIndicator = document.getElementsByClassName("tab-indicator")[0];
+  let tabBody = document.getElementsByClassName("tab-body")[0];
+
+  let tabsPane = tabHeader.getElementsByTagName("div");
+
+  for (let i = 0; i < tabsPane.length; i++) {
+    tabsPane[i].addEventListener("click", function () {
+      tabHeader.getElementsByClassName("active")[0].classList.remove("active");
+      tabsPane[i].classList.add("active");
+      tabBody.getElementsByClassName("active")[0].classList.remove("active");
+      tabBody.getElementsByTagName("div")[i].classList.add("active");
+
+      tabIndicator.style.left = `calc(calc(100% / 4) * ${i})`;
+    });
+  }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
 
 
-
-
-
-  <script>
-  $(document).ready(function() {
-    var table = $('#table1').DataTable( {
-        lengthChange: false,
-        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-    } );
-
-  $(document).ready(function() {
-    var table = $('#table2').DataTable( {
-        lengthChange: false,
-        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-    } );
-
-  $(document).ready(function() {
-    var table = $('#table3').DataTable( {
-        lengthChange: false,
-        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-    } );
-
-  $(document).ready(function() {
-    var table = $('#table4').DataTable( {
-        lengthChange: false,
-        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-    } );
- 
-    table.buttons().container()
-        .appendTo( '#table1_wrapper .col-sm-6:eq(0)' );
-    } );
-    table.buttons().container()
-        .appendTo( '#table2_wrapper .col-sm-6:eq(0)' );
-    } );
-    table.buttons().container()
-        .appendTo( '#table3_wrapper .col-sm-6:eq(0)' );
-    } );
-    table.buttons().container()
-        .appendTo( '#table4_wrapper .col-sm-6:eq(0)' );
-    } );
-  </script>
-
+</html>
 {% endblock %}

@@ -21,7 +21,7 @@ MYSQL_USER          = 'master'
 MYSQL_PASSWORD      = 'love@123456'
 MYSQL_DB            = 'University'
 
-app.config['IMAGE_UPLOAD'] = "static\image"
+app.config['IMAGE_UPLOAD'] = "static/image/"
 app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 
 # mail_settings = {
@@ -42,13 +42,23 @@ connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PA
 # Index
 @app.route('/')
 def landing():
-     
     cur = connection.cursor()
     cur.execute("SELECT * FROM residents")
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews ORDER BY rating DESC")
+    top = cur.fetchall()
+    cur.close()
+    
+    return render_template('map.html', datas=datas, all=all, top=top)
 
 @app.route('/index')
 def index():
@@ -58,11 +68,53 @@ def index():
     datas = cur.fetchall()
     cur.close()
 
-    return render_template('map.html', datas=datas)
+    
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
 
-@app.route('/admin')
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews ORDER BY rating DESC")
+    top = cur.fetchall()
+    cur.close()
+
+    return render_template('map.html', datas=datas, all=all, top=top)
+
+@app.route('/admin', methods=['GET', 'POST'])
 def Addmin():
-    return render_template('Admin.html')
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM members")
+    members = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM residents")
+    residents = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM all_location")
+    all = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    cur = connection.cursor()
+    total_residents = cur.execute("SELECT * FROM residents")
+    cur.close()
+
+    cur = connection.cursor()
+    total_comments = cur.execute("SELECT * FROM reviews")
+    cur.close()
+
+    cur = connection.cursor()
+    total_users = cur.execute("SELECT * FROM members")
+    cur.close()
+    return render_template('Admin.html',members=members, residents=residents, all=all, reviews=reviews,total_residents=total_residents, total_comments=total_comments ,total_users=total_users)
 
 @app.route('/OTP', methods=['GET', 'POST'])
 def OTP():
@@ -88,12 +140,7 @@ def OTP():
 def about_team():
     return render_template('landing.html')
 
-@app.route('/resident', methods=['GET', 'POST'])
-def select():
-    # if request.method == 'POST':
-    #     cur = connection.cursor()
 
-    return render_template('resident.html')
 
 @app.route('/select')
 def selectType():
@@ -155,10 +202,10 @@ def register():
             flash('Send OTP Success', 'success')
 
             
-            msg = f"From: worawit.pa.61@ubu.ac.th\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
+            msg = f"From: under.university.61@gmail.com\r\nTo: {form.email.data}\r\nSubject: OTP: < {OTP} >\r\n"
             server.starttls()
-            server.login('worawit.pa.61@ubu.ac.th', 'Vryi4696')
-            server.sendmail('worawit.pa.61@ubu.ac.th', form.email.data, msg)
+            server.login('under.university.61@gmail.com', 'love@123456')
+            server.sendmail('under.university.61@gmail.com', form.email.data, msg)
             return render_template('OTP.html',email=form.email.data)
         
     return render_template('login.html', form=form)
@@ -304,14 +351,77 @@ def add():
 
     return render_template("add.html")
 
-@app.route('/resident/<string:id>',methods=['GET'])
+@app.route('/resident/<string:id>',methods=['GET', 'POST'])
 def resident(id):
     cur = connection.cursor()
     result = cur.execute("SELECT * FROM residents WHERE residentId = %s", [id])
     datas = cur.fetchall()
     cur.close()
-    return render_template("resident.html",datas=datas ,id=id)
 
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM reviews")
+    reviews = cur.fetchall()
+    cur.close()
+
+    if request.method == 'POST':
+        print(request.form)
+        cur = connection.cursor()
+        cur.execute("INSERT INTO reviews(comments, rating, userId, residentId) VALUES(%s, %s, %s, %s)", (request.form['comments'], request.form['rating'], request.form['userId'], request.form['residentId']))
+        connection.commit()
+        cur.close()
+        
+    return render_template("resident.html",datas=datas ,id=id,reviews=reviews)
+
+
+@app.route('/delete/<string:path>/<string:id_delete>',methods=['GET'])
+@is_logged_in
+def delete(path,id_delete):
+    cur = connection.cursor()
+    if path == "members":
+        cur.execute("delete FROM members WHERE userId = %s",[id_delete])
+    elif path == "all_location":
+        cur.execute("delete FROM all_location WHERE id = %s",[id_delete])
+    elif path == "residents":
+        cur.execute("delete FROM residents WHERE residentId = %s",[id_delete])
+    elif path == "reviews":
+        cur.execute("delete FROM reviews WHERE reviewId = %s",[id_delete])
+
+    connection.commit()
+    cur.close()
+    return redirect(url_for('Addmin'))
+
+@app.route('/setting')
+@is_logged_in
+def setting():
+    username = session['userId']
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM members WHERE userId = %s", [username])
+    data = cur.fetchall()
+    cur.close()
+    return render_template('setting.html',data=data)
+
+@app.route('/update',methods=['POST'])
+@is_logged_in
+def update():
+    try:
+        userId = session['userId']
+        if request.method=="POST":
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            email = request.form['email']
+
+            #conn db
+            cur = connection.cursor()
+            sql = "update members set firstName = %s, lastName = %s, email = %s where userId = %s"
+            cur.execute(sql,(firstName, lastName, email, userId))
+            connection.commit
+            cur.close
+            flash("ข้อมูลได้รับการอัพเดทเรียร้อยแล้ว","success")
+            return redirect(url_for('setting'))
+    except Exception as Error:
+        error = str(Error)
+        print(error)
+        return redirect(url_for('setting'))
 
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
