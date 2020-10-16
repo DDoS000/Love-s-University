@@ -21,7 +21,7 @@ MYSQL_USER          = 'master'
 MYSQL_PASSWORD      = 'love@123456'
 MYSQL_DB            = 'University'
 
-app.config['IMAGE_UPLOAD'] = "static\image"
+app.config['IMAGE_UPLOAD'] = "static/image/"
 app.config['ALLOWED_IMAGE_EXTENTIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
 
 # mail_settings = {
@@ -140,11 +140,8 @@ def OTP():
 def about_team():
     return render_template('landing.html')
 
-# @app.route('/resident', methods=['GET', 'POST'])
-# def select():
-    
 
-#     return render_template('resident.html',id=request.form['userId'])
+
 @app.route('/select')
 def selectType():
     return render_template('select.html')
@@ -393,6 +390,38 @@ def delete(path,id_delete):
     cur.close()
     return redirect(url_for('Addmin'))
 
+@app.route('/setting')
+@is_logged_in
+def setting():
+    username = session['userId']
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM members WHERE userId = %s", [username])
+    data = cur.fetchall()
+    cur.close()
+    return render_template('setting.html',data=data)
+
+@app.route('/update',methods=['POST'])
+@is_logged_in
+def update():
+    try:
+        userId = session['userId']
+        if request.method=="POST":
+            firstName = request.form['firstName']
+            lastName = request.form['lastName']
+            email = request.form['email']
+
+            #conn db
+            cur = connection.cursor()
+            sql = "update members set firstName = %s, lastName = %s, email = %s where userId = %s"
+            cur.execute(sql,(firstName, lastName, email, userId))
+            connection.commit
+            cur.close
+            flash("ข้อมูลได้รับการอัพเดทเรียร้อยแล้ว","success")
+            return redirect(url_for('setting'))
+    except Exception as Error:
+        error = str(Error)
+        print(error)
+        return redirect(url_for('setting'))
 
 if __name__ == '__main__':
     app.secret_key='kmasdfp[mf[pbn[dnfbpndp[b'
