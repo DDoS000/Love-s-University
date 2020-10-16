@@ -1,3 +1,6 @@
+
+{% extends 'layout.html' %}
+{% block style %}
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -33,22 +36,21 @@
 
 
 <link type="text/css" rel="stylesheet" href="../../static/css/style.css" />
+
+{% endblock %}
 <!DOCTYPE html>
 <html>
 <header id="header" class="transparent-nav" style="background-color: #374050; opacity: 0.8;">
   <div class="container">
-    <div class="row">
+    <!-- <div class="row">
       <div class="navbar-header">
-        <!-- Logo -->
+   
         <div class="navbar-brand">
 
           <h2 style="color: white; font-family: 'Prompt'; ">UFU</h2>
         </div>
-        <!-- /Logo -->
 
       </div>
-
-      <!-- Navigation -->
       <nav id="nav">
         <ul class="main-menu nav navbar-nav navbar-right">
           {% if session.logged_in and session.permission == 'M' %}
@@ -77,14 +79,13 @@
           {% endif %}
         </ul>
       </nav>
-      <!-- /Navigation -->
-
-    </div>
+    </div> -->
   </div>
 </header>
 <!-- /Header -->
 <br><br><br>
-<div style="position: relative; text-align: center;">
+{% block body %}
+<div style="position: relative; text-align: center; margin-top: 100px;">
   <h1><i class='fas fa-tachometer-alt'></i> My Dashboard <small> Welcome {{session.firstName}}</small></h1>
   <hr>
   <div class="w3-row-padding w3-margin-bottom" style="text-align: center; margin-left: 20%;">
@@ -374,3 +375,4 @@
 
 
 </html>
+{% endblock %}
