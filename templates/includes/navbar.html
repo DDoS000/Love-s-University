@@ -5,7 +5,7 @@
       <div class="navbar-header">
         <!-- Logo -->
         <div class="navbar-brand">
-          
+
           <h2 style="color: white; font-family: 'Prompt'; ">UFU</h2>
         </div>
         <!-- /Logo -->
@@ -18,6 +18,7 @@
           {% if session.logged_in and session.permission == 'M' %}
           <div class="row" style="position: absolute; right: 100px;">
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/select" style="font-family: 'Prompt';">Add</a></li>
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">User
                 {{session.firstName}} </a></li>
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign
@@ -26,13 +27,9 @@
           {% elif session.logged_in and session.permission == 'A' %}
           <div class="row" style="position: absolute; right: 100px;">
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/" style="font-family: 'Prompt';">Home</a></li>
-            <li class="dropdown" style="margin-left: 30px; margin-top: 20px;">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin {{session.username}}</a>
-              <ul class="dropdown-menu">
-                <li><a href="/admin" style="font-family: 'Prompt';">Dashboard</a></li>
-                <li><a href="/select" style="font-family: 'Prompt';">Add data</a></li>
-              </ul>
-            </li>
+            
+            <li style="margin-left: 30px; margin-top: 20px;"><a href="/admin" style="font-family: 'Prompt';">Admin
+                {{session.firstName}} </a></li>
             <li style="margin-left: 30px; margin-top: 20px;"><a href="/logout" style="font-family: 'Prompt';">Sign
                 Out</a></li>
           </div>
